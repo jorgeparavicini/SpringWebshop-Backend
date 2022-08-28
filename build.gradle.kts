@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
     id("org.springframework.boot") version "2.7.3"
     id("io.spring.dependency-management") version "1.0.13.RELEASE"
+    id("org.jetbrains.kotlin.plugin.jpa") version "1.6.21"
     kotlin("jvm") version "1.6.21"
     kotlin("plugin.spring") version "1.6.21"
 }
@@ -16,11 +17,13 @@ repositories {
 }
 
 dependencies {
+    // Spring Initializr starters
     implementation("org.springframework.boot:spring-boot-starter-web")
-
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
+    // Other dependencies
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -30,6 +33,9 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-ui:1.6.10")
     implementation("org.springdoc:springdoc-openapi-kotlin:1.6.10")
     implementation("org.springdoc:springdoc-openapi-security:1.6.10")
+
+    // Database
+    runtimeOnly("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
