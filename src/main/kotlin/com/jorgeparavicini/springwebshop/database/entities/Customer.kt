@@ -9,9 +9,7 @@ import javax.persistence.Id
 class Customer(
     val firstName: String,
     val lastName: String,
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    val id: Long? = null
+    @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long? = null
 ) {
     override fun toString(): String {
         return "Customer[${id}, ${firstName}, ${lastName}]"

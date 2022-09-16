@@ -29,13 +29,14 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // Swagger
-    implementation("org.springdoc:springdoc-openapi-data-rest:1.6.10")
-    implementation("org.springdoc:springdoc-openapi-ui:1.6.10")
-    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.10")
-    implementation("org.springdoc:springdoc-openapi-security:1.6.10")
+    implementation("org.springdoc:springdoc-openapi-data-rest:1.6.11")
+    implementation("org.springdoc:springdoc-openapi-ui:1.6.11")
+    implementation("org.springdoc:springdoc-openapi-kotlin:1.6.11")
+    implementation("org.springdoc:springdoc-openapi-security:1.6.11")
 
     // Database
-    runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("com.h2database:h2")
+    //runtimeOnly("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }

@@ -1,5 +1,6 @@
 package com.jorgeparavicini.springwebshop.config
 
+import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
 import org.springdoc.api.ErrorMessage
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException
@@ -16,6 +17,12 @@ class GlobalErrorHandler {
     @ExceptionHandler
     fun handleNotFound(request: HttpServletRequest, error: NoHandlerFoundException): ErrorMessage {
         return ErrorMessage("Not found")
+    }
+
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler
+    fun handleNotFound(request: HttpServletRequest, error: NotFoundException): ErrorMessage {
+        return ErrorMessage(error.message ?: "Not Found")
     }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
