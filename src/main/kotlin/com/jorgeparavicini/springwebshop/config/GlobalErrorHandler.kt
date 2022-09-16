@@ -1,5 +1,6 @@
 package com.jorgeparavicini.springwebshop.config
 
+import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
 import org.springdoc.api.ErrorMessage
 import org.springframework.http.HttpStatus
@@ -12,6 +13,12 @@ import javax.servlet.http.HttpServletRequest
 
 @RestControllerAdvice
 class GlobalErrorHandler {
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler
+    fun handleBadRequest(request: HttpServletRequest, error: BadRequestException): ErrorMessage {
+        return ErrorMessage(error.message ?: "Bad Request")
+    }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
