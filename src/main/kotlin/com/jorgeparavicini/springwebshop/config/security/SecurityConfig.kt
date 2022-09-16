@@ -3,9 +3,9 @@ package com.jorgeparavicini.springwebshop.config.security
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
-import org.springframework.security.config.annotation.web.builders.WebSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator
 import org.springframework.security.oauth2.core.OAuth2Error
@@ -28,8 +28,8 @@ class SecurityConfig(
     @Bean
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeRequests()
-            .antMatchers("/api/user/**").authenticated()
-            .anyRequest().permitAll()
+            .antMatchers(HttpMethod.GET).permitAll()
+            .anyRequest().authenticated()
             .and().cors()
             .and().oauth2ResourceServer()
             .authenticationEntryPoint(authenticationErrorHandler)
