@@ -34,7 +34,7 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-security:1.6.11")
 
     // Database
-    runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("mysql:mysql-connector-java")
     implementation("org.liquibase:liquibase-core")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")

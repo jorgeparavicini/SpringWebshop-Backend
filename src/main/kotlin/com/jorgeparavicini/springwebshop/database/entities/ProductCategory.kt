@@ -11,6 +11,6 @@ class ProductCategory(
     val products: List<Product>,
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long? = null
 ) {}
