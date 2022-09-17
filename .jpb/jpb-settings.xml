@@ -4,7 +4,7 @@
     <database-infos>
       <database-info>
         <option name="enabled" value="true" />
-        <dbms-id>postgres</dbms-id>
+        <dbms-id>mysql</dbms-id>
       </database-info>
     </database-infos>
   </component>
