@@ -6,5 +6,11 @@ import javax.persistence.*
 class ProductCategory(
     val name: String,
     val description: String? = null,
-    @Id @GeneratedValue(strategy = GenerationType.AUTO) val id: Long? = null
+
+    @OneToMany(mappedBy = "category")
+    val products: List<Product>,
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    val id: Long? = null
 ) {}

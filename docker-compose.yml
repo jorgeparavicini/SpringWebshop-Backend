@@ -1,0 +1,38 @@
+version: '3'
+
+services:
+  spring-webshop-db:
+    image: "postgres:alpine"
+    container_name: "spring-webshop-db"
+    volumes:
+      - spring-webshop-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=spring-webshop
+      - POSTGRES_USER=spring-webshop
+      - POSTGRES_PASSWORD=spring-webshop
+
+  spring-webshop-backend:
+    build: ./
+    container_name: "spring-webshop-backend"
+    environment:
+      - POSTGRES_SERVER=spring-webshop-db
+      - POSTGRES_DB=spring-webshop
+      - POSTGRES_USER=spring-webshop
+      - POSTGRES_PASSWORD=spring-webshop
+    ports:
+      - "8080:8080"
+    links:
+      - spring-webshop-db
+
+  #spring-webshop-frontend:
+  #  build: ../spring-webshop-frontend
+  #  container_name: "spring-webshop-frontend"
+  #  ports:
+  #    - "4200:80"
+  #  links:
+  #    - spring-webshop-backend
+
+volumes:
+  spring-webshop-data:

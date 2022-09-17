@@ -34,8 +34,8 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-security:1.6.11")
 
     // Database
-    runtimeOnly("com.h2database:h2")
-    //runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("org.postgresql:postgresql")
+    implementation("org.liquibase:liquibase-core")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
@@ -49,4 +49,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.getByName<Jar>("jar") {
+    enabled = false
 }
