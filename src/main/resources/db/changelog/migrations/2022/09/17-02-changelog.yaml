@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1663411279220-1
+      author: Jorge Paravicini
+      changes:
+        - loadData:
+            encoding: UTF-8
+            tableName: product_category
+            file: db/data/product_category.csv
+            separator: ','
