@@ -1,0 +1,67 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1663508517853-1
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_vendor
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: street
+                  type: VARCHAR(255)
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+              - column:
+                  name: postal_code
+                  type: VARCHAR(255)
+              - column:
+                  name: country
+                  type: VARCHAR(255)
+            tableName: vendor
+  - changeSet:
+      id: 1663508517853-2
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: vendor_id
+                  type: BIGINT
+            tableName: product
+  - changeSet:
+      id: 1663508517853-3
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addNotNullConstraint:
+            columnDataType: BIGINT
+            columnName: vendor_id
+            tableName: product
+  - changeSet:
+      id: 1663508517853-4
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: vendor_id
+            baseTableName: product
+            constraintName: FK_PRODUCT_ON_VENDOR
+            referencedColumnNames: id
+            referencedTableName: vendor
+

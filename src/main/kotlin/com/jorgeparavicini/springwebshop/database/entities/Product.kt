@@ -12,6 +12,10 @@ class Product(
     @JoinColumn(name = "category_id", nullable = false)
     val category: ProductCategory,
 
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "vendor_id", nullable = false)
+    val vendor: Vendor,
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override val id: Long? = null
