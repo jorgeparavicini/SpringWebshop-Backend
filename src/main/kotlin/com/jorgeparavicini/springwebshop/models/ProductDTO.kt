@@ -5,5 +5,6 @@ data class ProductDTO(
     var name: String,
     var description: String,
     var price: Float,
-    var categoryId: Long
+    var categoryId: Long,
+    var vendorId: Long
 ) : DTO()
