@@ -19,4 +19,4 @@ class Product(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     override val id: Long? = null
-): BaseEntity() {}
+): BaseEntity()
