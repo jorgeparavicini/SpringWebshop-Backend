@@ -21,7 +21,7 @@ class ProductServiceImpl(
     private val relatedProductRepo: RelatedProductRepository
 ) : ProductService {
 
-    override fun Product.toTDto() = ProductDTO(id!!, name, description, price, category.id!!, vendor.id!!)
+    override fun Product.toDto() = ProductDTO(id!!, name, description, price, category.id!!, vendor.id!!)
 
     override fun ProductDTO.toEntity(): Product {
         val category = categoryRepo.findByIdOrNull(categoryId) ?: throw NotFoundException("Category not found")

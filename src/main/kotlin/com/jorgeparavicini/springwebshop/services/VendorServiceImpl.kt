@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 @Service
 class VendorServiceImpl(override val repo: VendorRepository) : VendorService {
 
-    override fun Vendor.toTDto() = VendorDTO(id!!, name, description, street, city, postalCode, country)
+    override fun Vendor.toDto() = VendorDTO(id!!, name, description, street, city, postalCode, country)
 
     override fun VendorDTO.toEntity() = Vendor(name, description, street, city, postalCode, country)
 }
