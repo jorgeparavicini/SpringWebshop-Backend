@@ -1,7 +1,9 @@
 package com.jorgeparavicini.springwebshop.config
 
 import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
+import com.jorgeparavicini.springwebshop.exceptions.ForbiddenException
 import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
+import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
 import org.springdoc.api.ErrorMessage
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException
@@ -20,6 +22,24 @@ class GlobalErrorHandler {
         return ErrorMessage(error.message ?: "Bad Request")
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler
+    fun handleUnauthorized(request: HttpServletRequest, error: UnauthorizedException): ErrorMessage {
+        return ErrorMessage(error.message ?: "Unauthorized")
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler
+    fun handleAccessDenied(request: HttpServletRequest, error: AccessDeniedException): ErrorMessage {
+        return ErrorMessage("Permission denied")
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler
+    fun handleAccessDenied(request: HttpServletRequest, error: ForbiddenException): ErrorMessage {
+        return ErrorMessage(error.message ?: "Permission denied")
+    }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler
     fun handleNotFound(request: HttpServletRequest, error: NoHandlerFoundException): ErrorMessage {
@@ -31,13 +51,6 @@ class GlobalErrorHandler {
     fun handleNotFound(request: HttpServletRequest, error: NotFoundException): ErrorMessage {
         return ErrorMessage(error.message ?: "Not Found")
     }
-
-    @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler
-    fun handleAccessDenied(request: HttpServletRequest, error: AccessDeniedException): ErrorMessage {
-        return ErrorMessage("Permission denied")
-    }
-
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler

@@ -10,29 +10,29 @@ interface Service<TEntity : BaseEntity, TDto : DTO, TRepo : CrudRepository<TEnti
 
     val repo: TRepo
 
-    fun TEntity.toTDto(): TDto
+    fun TEntity.toDto(): TDto
 
     fun TDto.toEntity(): TEntity
 
     fun getAll(): Iterable<TDto> {
-        return repo.findAll().map { it.toTDto() }
+        return repo.findAll().map { it.toDto() }
     }
 
     fun find(id: Long): TDto {
-        return repo.findById(id).orElseThrow { NotFoundException("Could not find entity with id: $id") }.toTDto()
+        return repo.findById(id).orElseThrow { NotFoundException("Could not find entity with id: $id") }.toDto()
     }
 
     fun create(newEntity: TDto): TDto {
         newEntity.id = 0
         val entity = newEntity.toEntity()
-        return repo.save(entity).toTDto()
+        return repo.save(entity).toDto()
     }
 
     fun update(id: Long, newEntity: TDto): TDto {
         if (id != newEntity.id)
             throw BadRequestException("The passed id ($id) does not match the id of the entity: ${newEntity.id}")
         val entity = newEntity.toEntity()
-        return repo.save(entity).toTDto()
+        return repo.save(entity).toDto()
     }
 
     fun delete(id: Long) {

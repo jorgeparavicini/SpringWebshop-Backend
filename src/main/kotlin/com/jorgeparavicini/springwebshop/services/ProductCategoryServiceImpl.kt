@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class ProductCategoryServiceImpl(override val repo: ProductCategoryRepository) : ProductCategoryService {
-    override fun ProductCategory.toTDto() = ProductCategoryDTO(id!!, name, description)
+    override fun ProductCategory.toDto() = ProductCategoryDTO(id!!, name, description)
 
     override fun ProductCategoryDTO.toEntity() = ProductCategory(name, description, emptyList(), id)
 }
