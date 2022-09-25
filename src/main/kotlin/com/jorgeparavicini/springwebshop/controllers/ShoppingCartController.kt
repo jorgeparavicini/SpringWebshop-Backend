@@ -1,7 +1,10 @@
 package com.jorgeparavicini.springwebshop.controllers
 
+import com.jorgeparavicini.springwebshop.models.CreateOrderDTO
 import com.jorgeparavicini.springwebshop.models.DTO
+import com.jorgeparavicini.springwebshop.models.OrderDTO
 import com.jorgeparavicini.springwebshop.models.ShoppingCartItemDTO
+import com.jorgeparavicini.springwebshop.services.OrderService
 import com.jorgeparavicini.springwebshop.services.ShoppingCartService
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
@@ -21,7 +24,7 @@ import java.security.Principal
 
 @RestController
 @RequestMapping(path = ["api/shopping-cart"], produces = [MediaType.APPLICATION_JSON_VALUE])
-class ShoppingCartController(private val service: ShoppingCartService) {
+class ShoppingCartController(private val service: ShoppingCartService, private val orderService: OrderService) {
     @GetMapping
     fun getAll(): List<ShoppingCartItemDTO> {
         return service.getAll().toList()
@@ -45,5 +48,10 @@ class ShoppingCartController(private val service: ShoppingCartService) {
     @DeleteMapping("{id}")
     fun delete(@PathVariable id: Long) {
         service.delete(id)
+    }
+
+    @PostMapping("order")
+    fun create(@RequestBody createOrderDTO: CreateOrderDTO): OrderDTO {
+        return orderService.create(createOrderDTO)
     }
 }
