@@ -1,0 +1,295 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1664124688515-1
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_orderitem
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: INT
+              - column:
+                  name: order_items
+                  type: BIGINT
+            tableName: order_item
+  - changeSet:
+      id: 1664124688515-2
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_product
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: price
+                  type: FLOAT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: category_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: vendor_id
+                  type: BIGINT
+            tableName: product
+  - changeSet:
+      id: 1664124688515-3
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_productcategory
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+            tableName: product_category
+  - changeSet:
+      id: 1664124688515-4
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_product_order
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: comments
+                  type: VARCHAR(255)
+              - column:
+                  name: street
+                  type: VARCHAR(255)
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+              - column:
+                  name: postal_code
+                  type: VARCHAR(255)
+              - column:
+                  name: country
+                  type: VARCHAR(255)
+              - column:
+                  name: user_id
+                  type: VARCHAR(255)
+            tableName: product_order
+  - changeSet:
+      id: 1664124688515-5
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_relatedproduct
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: related_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: relevance
+                  type: FLOAT
+            tableName: related_product
+  - changeSet:
+      id: 1664124688515-6
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_shoppingcartitem
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: quantity
+                  type: INT
+              - column:
+                  name: user_id
+                  type: VARCHAR(255)
+            tableName: shopping_cart_item
+  - changeSet:
+      id: 1664124688515-7
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_vendor
+                  name: id
+                  type: BIGINT
+              - column:
+                  name: name
+                  type: VARCHAR(255)
+              - column:
+                  name: description
+                  type: VARCHAR(255)
+              - column:
+                  name: street
+                  type: VARCHAR(255)
+              - column:
+                  name: city
+                  type: VARCHAR(255)
+              - column:
+                  name: postal_code
+                  type: VARCHAR(255)
+              - column:
+                  name: country
+                  type: VARCHAR(255)
+            tableName: vendor
+  - changeSet:
+      id: 1664124688515-8
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: order_items
+            baseTableName: order_item
+            constraintName: FK_ORDERITEM_ON_ORDERITEMS
+            referencedColumnNames: id
+            referencedTableName: product_order
+  - changeSet:
+      id: 1664124688515-9
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: product_id
+            baseTableName: order_item
+            constraintName: FK_ORDERITEM_ON_PRODUCT
+            referencedColumnNames: id
+            referencedTableName: product
+  - changeSet:
+      id: 1664124688515-10
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: category_id
+            baseTableName: product
+            constraintName: FK_PRODUCT_ON_CATEGORY
+            referencedColumnNames: id
+            referencedTableName: product_category
+  - changeSet:
+      id: 1664124688515-11
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: vendor_id
+            baseTableName: product
+            constraintName: FK_PRODUCT_ON_VENDOR
+            referencedColumnNames: id
+            referencedTableName: vendor
+  - changeSet:
+      id: 1664124688515-12
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: product_id
+            baseTableName: related_product
+            constraintName: FK_RELATEDPRODUCT_ON_PRODUCT
+            referencedColumnNames: id
+            referencedTableName: product
+  - changeSet:
+      id: 1664124688515-13
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: related_id
+            baseTableName: related_product
+            constraintName: FK_RELATEDPRODUCT_ON_RELATED
+            referencedColumnNames: id
+            referencedTableName: product
+  - changeSet:
+      id: 1664124688515-14
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: product_id
+            baseTableName: shopping_cart_item
+            constraintName: FK_SHOPPINGCARTITEM_ON_PRODUCT
+            referencedColumnNames: id
+            referencedTableName: product
+

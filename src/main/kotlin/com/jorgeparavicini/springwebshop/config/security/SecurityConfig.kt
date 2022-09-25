@@ -29,6 +29,7 @@ class SecurityConfig(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http.authorizeRequests()
             .antMatchers("/api/shopping-cart").authenticated()
+            .antMatchers("/api/order").authenticated()
             .antMatchers(HttpMethod.GET).permitAll()
             .anyRequest().authenticated()
             .and().cors()
