@@ -7,10 +7,10 @@ import com.jorgeparavicini.springwebshop.database.repositories.*
 import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
 import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
-import com.jorgeparavicini.springwebshop.models.CreateReviewDTO
-import com.jorgeparavicini.springwebshop.models.ProductDTO
-import com.jorgeparavicini.springwebshop.models.RelatedProductDTO
-import com.jorgeparavicini.springwebshop.models.ReviewDTO
+import com.jorgeparavicini.springwebshop.dto.CreateReviewDTO
+import com.jorgeparavicini.springwebshop.dto.ProductDTO
+import com.jorgeparavicini.springwebshop.dto.RelatedProductDTO
+import com.jorgeparavicini.springwebshop.dto.ReviewDTO
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service

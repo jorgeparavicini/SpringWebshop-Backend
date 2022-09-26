@@ -1,10 +1,11 @@
 package com.jorgeparavicini.springwebshop.controllers
 
-import com.jorgeparavicini.springwebshop.models.ProductCategoryDTO
+import com.jorgeparavicini.springwebshop.dto.ProductCategoryDTO
 import com.jorgeparavicini.springwebshop.services.ProductCategoryService
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping(path = ["api/product-categories"], produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -22,13 +23,13 @@ class ProductCategoryController(private val service: ProductCategoryService) {
 
     @PostMapping
     @PreAuthorize("hasAuthority('create:product-category')")
-    fun create(@RequestBody newProductCategory: ProductCategoryDTO): ProductCategoryDTO {
+    fun create(@Valid @RequestBody newProductCategory: ProductCategoryDTO): ProductCategoryDTO {
         return service.create(newProductCategory)
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('update:product-category')")
-    fun update(@PathVariable id: Long, @RequestBody newProductCategory: ProductCategoryDTO): ProductCategoryDTO {
+    fun update(@PathVariable id: Long, @Valid @RequestBody newProductCategory: ProductCategoryDTO): ProductCategoryDTO {
         return service.update(id, newProductCategory)
     }
 

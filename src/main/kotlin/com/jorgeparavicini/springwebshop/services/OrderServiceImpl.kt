@@ -8,9 +8,9 @@ import com.jorgeparavicini.springwebshop.database.repositories.ShoppingCartItemR
 import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
 import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
-import com.jorgeparavicini.springwebshop.models.CreateOrderDTO
-import com.jorgeparavicini.springwebshop.models.OrderDTO
-import com.jorgeparavicini.springwebshop.models.OrderItemDTO
+import com.jorgeparavicini.springwebshop.dto.CreateOrderDTO
+import com.jorgeparavicini.springwebshop.dto.OrderDTO
+import com.jorgeparavicini.springwebshop.dto.OrderItemDTO
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
