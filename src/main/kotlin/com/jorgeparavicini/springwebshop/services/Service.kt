@@ -2,7 +2,7 @@ package com.jorgeparavicini.springwebshop.services
 
 import com.jorgeparavicini.springwebshop.database.entities.BaseEntity
 import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
-import com.jorgeparavicini.springwebshop.models.DTO
+import com.jorgeparavicini.springwebshop.dto.DTO
 import org.springframework.data.repository.CrudRepository
 import org.webjars.NotFoundException
 

@@ -1,4 +1,4 @@
-package com.jorgeparavicini.springwebshop.models
+package com.jorgeparavicini.springwebshop.dto
 
 data class OrderDTO(
     override var id: Long,

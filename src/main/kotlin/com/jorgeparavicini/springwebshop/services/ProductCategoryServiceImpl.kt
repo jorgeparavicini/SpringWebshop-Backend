@@ -2,9 +2,7 @@ package com.jorgeparavicini.springwebshop.services
 
 import com.jorgeparavicini.springwebshop.database.entities.ProductCategory
 import com.jorgeparavicini.springwebshop.database.repositories.ProductCategoryRepository
-import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
-import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
-import com.jorgeparavicini.springwebshop.models.ProductCategoryDTO
+import com.jorgeparavicini.springwebshop.dto.ProductCategoryDTO
 import org.springframework.stereotype.Service
 
 @Service

@@ -2,10 +2,10 @@ package com.jorgeparavicini.springwebshop.services
 
 import com.jorgeparavicini.springwebshop.database.entities.Product
 import com.jorgeparavicini.springwebshop.database.repositories.ProductRepository
-import com.jorgeparavicini.springwebshop.models.CreateReviewDTO
-import com.jorgeparavicini.springwebshop.models.ProductDTO
-import com.jorgeparavicini.springwebshop.models.RelatedProductDTO
-import com.jorgeparavicini.springwebshop.models.ReviewDTO
+import com.jorgeparavicini.springwebshop.dto.CreateReviewDTO
+import com.jorgeparavicini.springwebshop.dto.ProductDTO
+import com.jorgeparavicini.springwebshop.dto.RelatedProductDTO
+import com.jorgeparavicini.springwebshop.dto.ReviewDTO
 
 interface ProductService : Service<Product, ProductDTO, ProductRepository> {
     fun getAllRelatedProducts(productId: Long): Iterable<RelatedProductDTO>

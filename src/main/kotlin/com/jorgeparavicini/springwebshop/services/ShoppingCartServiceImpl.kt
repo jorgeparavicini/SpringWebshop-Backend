@@ -7,7 +7,7 @@ import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import com.jorgeparavicini.springwebshop.exceptions.ForbiddenException
 import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
 import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
-import com.jorgeparavicini.springwebshop.models.ShoppingCartItemDTO
+import com.jorgeparavicini.springwebshop.dto.ShoppingCartItemDTO
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service

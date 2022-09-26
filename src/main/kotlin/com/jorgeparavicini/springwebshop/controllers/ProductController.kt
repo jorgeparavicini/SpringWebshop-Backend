@@ -1,13 +1,14 @@
 package com.jorgeparavicini.springwebshop.controllers
 
-import com.jorgeparavicini.springwebshop.models.CreateReviewDTO
-import com.jorgeparavicini.springwebshop.models.ProductDTO
-import com.jorgeparavicini.springwebshop.models.RelatedProductDTO
-import com.jorgeparavicini.springwebshop.models.ReviewDTO
+import com.jorgeparavicini.springwebshop.dto.CreateReviewDTO
+import com.jorgeparavicini.springwebshop.dto.ProductDTO
+import com.jorgeparavicini.springwebshop.dto.RelatedProductDTO
+import com.jorgeparavicini.springwebshop.dto.ReviewDTO
 import com.jorgeparavicini.springwebshop.services.ProductService
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import javax.validation.Valid
 
 @RestController
 @RequestMapping(path = ["api/products"], produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -24,13 +25,13 @@ class ProductController(private val service: ProductService) {
 
     @PostMapping
     @PreAuthorize("hasAuthority('create:product')")
-    fun create(@RequestBody newProduct: ProductDTO): ProductDTO {
+    fun create(@Valid @RequestBody newProduct: ProductDTO): ProductDTO {
         return service.create(newProduct)
     }
 
     @PutMapping("{id}")
     @PreAuthorize("hasAuthority('update:product')")
-    fun update(@PathVariable id: Long, @RequestBody newProduct: ProductDTO): ProductDTO {
+    fun update(@PathVariable id: Long, @Valid @RequestBody newProduct: ProductDTO): ProductDTO {
         return service.update(id, newProduct)
     }
 
@@ -53,7 +54,7 @@ class ProductController(private val service: ProductService) {
 
     @PostMapping("{id}/related")
     @PreAuthorize("hasAuthority('create:related-product')")
-    fun createRelatedProduct(@PathVariable id: Long, @RequestBody dto: RelatedProductDTO): RelatedProductDTO {
+    fun createRelatedProduct(@PathVariable id: Long, @Valid @RequestBody dto: RelatedProductDTO): RelatedProductDTO {
         return service.createRelatedProduct(id, dto)
     }
 
@@ -86,7 +87,7 @@ class ProductController(private val service: ProductService) {
     }
 
     @PostMapping("{id}/reviews")
-    fun createReview(@PathVariable id: Long, @RequestBody reviewDTO: CreateReviewDTO): ReviewDTO {
+    fun createReview(@PathVariable id: Long, @Valid @RequestBody reviewDTO: CreateReviewDTO): ReviewDTO {
         return service.createReview(id, reviewDTO)
     }
 
@@ -94,7 +95,7 @@ class ProductController(private val service: ProductService) {
     fun updateReview(
         @PathVariable id: Long,
         @PathVariable reviewId: Long,
-        @RequestBody reviewDTO: CreateReviewDTO
+        @Valid @RequestBody reviewDTO: CreateReviewDTO
     ): ReviewDTO {
         return service.updateReview(id, reviewId, reviewDTO)
     }

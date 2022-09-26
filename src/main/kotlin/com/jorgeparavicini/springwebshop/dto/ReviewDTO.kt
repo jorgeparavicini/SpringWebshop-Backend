@@ -1,4 +1,4 @@
-package com.jorgeparavicini.springwebshop.models
+package com.jorgeparavicini.springwebshop.dto
 
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min

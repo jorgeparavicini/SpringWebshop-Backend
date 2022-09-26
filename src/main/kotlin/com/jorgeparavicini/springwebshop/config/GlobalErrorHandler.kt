@@ -4,9 +4,12 @@ import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import com.jorgeparavicini.springwebshop.exceptions.ForbiddenException
 import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
 import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
+import com.jorgeparavicini.springwebshop.models.ValidationErrorMessage
 import org.springdoc.api.ErrorMessage
 import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException
+import org.springframework.validation.FieldError
+import org.springframework.web.bind.MethodArgumentNotValidException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -20,6 +23,14 @@ class GlobalErrorHandler {
     @ExceptionHandler
     fun handleBadRequest(request: HttpServletRequest, error: BadRequestException): ErrorMessage {
         return ErrorMessage(error.message ?: "Bad Request")
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler
+    fun handleBadRequest(request: HttpServletRequest, error: MethodArgumentNotValidException): ValidationErrorMessage {
+        val fieldErrors =
+            error.bindingResult.fieldErrors.map { FieldError(it.objectName, it.field, it.defaultMessage ?: "") }
+        return ValidationErrorMessage("validation error", fieldErrors)
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
