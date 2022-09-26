@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1664191224215-1
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_review
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  name: user_id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: rating
+                  type: INT
+              - column:
+                  name: comment
+                  type: VARCHAR(255)
+            tableName: review
+  - changeSet:
+      id: 1664191224215-2
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: product_id
+            baseTableName: review
+            constraintName: FK_REVIEW_ON_PRODUCT
+            referencedColumnNames: id
+            referencedTableName: product
+

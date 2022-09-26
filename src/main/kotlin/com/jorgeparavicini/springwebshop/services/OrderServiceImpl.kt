@@ -29,11 +29,11 @@ class OrderServiceImpl(
         OrderDTO(id!!, comments, street, city, postalCode, country, orderItems.map { it.toDto() }.toSet())
 
     private fun ShoppingCartItem.toOrderItem() =
-        OrderItem(product, quantity, 0)
+        OrderItem(product, quantity)
 
     private fun CreateOrderDTO.toEntity(): Order {
         val orderItems = shoppingCartRepo.findByUserId(userId).map { it.toOrderItem() }.toSet()
-        return Order(comments, street, city, postalCode, country, orderItems, userId, id)
+        return Order(comments, street, city, postalCode, country, orderItems, userId, 0)
     }
 
     override fun getAll(): List<OrderDTO> {
@@ -46,7 +46,6 @@ class OrderServiceImpl(
 
     @Transactional
     override fun create(dto: CreateOrderDTO): OrderDTO {
-        dto.id = 0
         val entity = dto.toEntity()
         if (entity.orderItems.isEmpty()) {
             throw BadRequestException("Can not order an empty shopping cart.")

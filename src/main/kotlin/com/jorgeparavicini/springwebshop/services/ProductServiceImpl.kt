@@ -2,24 +2,31 @@ package com.jorgeparavicini.springwebshop.services
 
 import com.jorgeparavicini.springwebshop.database.entities.Product
 import com.jorgeparavicini.springwebshop.database.entities.RelatedProduct
-import com.jorgeparavicini.springwebshop.database.repositories.ProductCategoryRepository
-import com.jorgeparavicini.springwebshop.database.repositories.ProductRepository
-import com.jorgeparavicini.springwebshop.database.repositories.RelatedProductRepository
-import com.jorgeparavicini.springwebshop.database.repositories.VendorRepository
+import com.jorgeparavicini.springwebshop.database.entities.Review
+import com.jorgeparavicini.springwebshop.database.repositories.*
 import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
+import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
+import com.jorgeparavicini.springwebshop.models.CreateReviewDTO
 import com.jorgeparavicini.springwebshop.models.ProductDTO
 import com.jorgeparavicini.springwebshop.models.RelatedProductDTO
+import com.jorgeparavicini.springwebshop.models.ReviewDTO
 import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class ProductServiceImpl(
     override val repo: ProductRepository,
     private val categoryRepo: ProductCategoryRepository,
     private val vendorRepo: VendorRepository,
-    private val relatedProductRepo: RelatedProductRepository
+    private val relatedProductRepo: RelatedProductRepository,
+    private val reviewRepo: ReviewRepository
 ) : ProductService {
+
+    private val userId: String
+        get() = SecurityContextHolder.getContext()?.authentication?.name ?: throw UnauthorizedException()
 
     override fun Product.toDto() = ProductDTO(id!!, name, description, price, category.id!!, vendor.id!!)
 
@@ -37,6 +44,15 @@ class ProductServiceImpl(
         val relatedProduct = repo.findById(relatedProductId)
             .orElseThrow { NotFoundException("Could not find related product with id: $productId") }
         return RelatedProduct(product, relatedProduct, relevance, id)
+    }
+
+    private fun Review.toDto() = ReviewDTO(id!!, product.id!!, userId, rating, comment)
+
+    private fun CreateReviewDTO.toEntity(id: Long? = null): Review {
+        val product =
+            repo.findById(productId).orElseThrow { NotFoundException("Could not find product with id: $productId") }
+
+        return Review(product, userId, rating, comment, id ?: 0)
     }
 
     override fun getAllRelatedProducts(productId: Long): Iterable<RelatedProductDTO> {
@@ -77,5 +93,44 @@ class ProductServiceImpl(
                 throw BadRequestException("The passed id ($productId) does not match the id of the product: ${it.product.id}")
             relatedProductRepo.deleteById(relatedProductId)
         }
+    }
+
+    override fun getAllReviews(productId: Long): Iterable<ReviewDTO> {
+        return reviewRepo.findAllByProductId(productId).map { it.toDto() }
+    }
+
+    override fun findReview(productId: Long, reviewId: Long): ReviewDTO {
+        return reviewRepo.findByIdAndProductId(reviewId, productId)?.toDto()
+            ?: throw NotFoundException("Could not find review with id $reviewId for product with id $productId")
+    }
+
+    override fun createReview(productId: Long, createReviewDTO: CreateReviewDTO): ReviewDTO {
+        val entity = createReviewDTO.toEntity()
+        if (entity.product.id != productId) {
+            throw BadRequestException("Cannot create review for another product.")
+        }
+
+        return reviewRepo.save(entity).toDto()
+    }
+
+    override fun updateReview(productId: Long, reviewId: Long, createReviewDTO: CreateReviewDTO): ReviewDTO {
+        if (createReviewDTO.productId != productId) {
+            throw BadRequestException("Product id mismatch")
+        }
+
+        val existingEntity = reviewRepo.findByIdAndProductId(reviewId, productId)
+            ?: throw NotFoundException("Could not find review with id $reviewId for product with id $productId")
+
+        if (existingEntity.userId != userId) {
+            throw BadRequestException("Can not update review from another user.")
+        }
+
+        val newEntity = createReviewDTO.toEntity(existingEntity.id!!)
+        return reviewRepo.save(newEntity).toDto()
+    }
+
+    @Transactional
+    override fun deleteReview(productId: Long, reviewId: Long) {
+        reviewRepo.deleteByIdAndProductId(reviewId, productId)
     }
 }

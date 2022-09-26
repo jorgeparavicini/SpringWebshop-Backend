@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(path = ["api/vendor"], produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(path = ["api/vendors"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class VendorController(private val service: VendorService) {
     @GetMapping
     fun getAll(): List<VendorDTO> {
