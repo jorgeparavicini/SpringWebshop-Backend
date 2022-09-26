@@ -7,7 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
 @RestController
-@RequestMapping(path = ["api/product-category"], produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(path = ["api/product-categories"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class ProductCategoryController(private val service: ProductCategoryService) {
 
     @GetMapping

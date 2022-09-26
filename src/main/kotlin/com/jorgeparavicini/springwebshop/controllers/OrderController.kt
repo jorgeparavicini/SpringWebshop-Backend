@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping(path = ["api/order"], produces = [MediaType.APPLICATION_JSON_VALUE])
+@RequestMapping(path = ["api/orders"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class OrderController(private val service: OrderService) {
 
     @GetMapping
