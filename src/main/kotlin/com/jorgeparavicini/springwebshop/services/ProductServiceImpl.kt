@@ -1,16 +1,17 @@
 package com.jorgeparavicini.springwebshop.services
 
 import com.jorgeparavicini.springwebshop.database.entities.Product
+import com.jorgeparavicini.springwebshop.database.entities.ProductCategory
 import com.jorgeparavicini.springwebshop.database.entities.RelatedProduct
 import com.jorgeparavicini.springwebshop.database.entities.Review
 import com.jorgeparavicini.springwebshop.database.repositories.*
-import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
-import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
-import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
 import com.jorgeparavicini.springwebshop.dto.CreateReviewDTO
 import com.jorgeparavicini.springwebshop.dto.ProductDTO
 import com.jorgeparavicini.springwebshop.dto.RelatedProductDTO
 import com.jorgeparavicini.springwebshop.dto.ReviewDTO
+import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
+import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
+import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -29,6 +30,18 @@ class ProductServiceImpl(
         get() = SecurityContextHolder.getContext()?.authentication?.name ?: throw UnauthorizedException()
 
     override fun Product.toDto() = ProductDTO(id!!, name, description, price, category.id!!, vendor.id!!)
+
+    private fun ProductCategory.categoriesId(): Collection<Long> {
+        val queue = ArrayDeque(listOf(this))
+        val resultSet = mutableSetOf<Long>()
+        while (!queue.isEmpty()) {
+            val current = queue.removeLast()
+            resultSet.add(current.id!!)
+            queue.addAll(current.subCategories)
+        }
+
+        return resultSet
+    }
 
     override fun ProductDTO.toEntity(): Product {
         val category = categoryRepo.findByIdOrNull(categoryId) ?: throw NotFoundException("Category not found")
@@ -53,6 +66,17 @@ class ProductServiceImpl(
             repo.findById(productId).orElseThrow { NotFoundException("Could not find product with id: $productId") }
 
         return Review(product, userId, rating, comment, id ?: 0)
+    }
+
+    override fun getAll(categoryId: Long?): Iterable<ProductDTO> {
+        return categoryId?.let { category ->
+            val productCategory =
+                categoryRepo.findByIdOrNull(category)
+                    ?: throw NotFoundException("Could not find category with id $category")
+            repo.findByCategoryIdIn(productCategory.categoriesId()).map { it.toDto() }
+        } ?: run {
+            repo.findAll().map { it.toDto() }
+        }
     }
 
     override fun getAllRelatedProducts(productId: Long): Iterable<RelatedProductDTO> {

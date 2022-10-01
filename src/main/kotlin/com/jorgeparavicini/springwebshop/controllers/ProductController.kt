@@ -14,8 +14,8 @@ import javax.validation.Valid
 @RequestMapping(path = ["api/products"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class ProductController(private val service: ProductService) {
     @GetMapping
-    fun getAll(): List<ProductDTO> {
-        return service.getAll().toList()
+    fun getAll(@RequestParam category: Long?): List<ProductDTO> {
+        return service.getAll(category).toList()
     }
 
     @GetMapping("{id}")

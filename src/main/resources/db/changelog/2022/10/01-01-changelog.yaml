@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1664624427565-1
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  name: parent_category_id
+                  type: BIGINT
+            tableName: product_category
+  - changeSet:
+      id: 1664624427565-2
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: parent_category_id
+            baseTableName: product_category
+            constraintName: FK_PRODUCTCATEGORY_ON_PARENT_CATEGORY
+            referencedColumnNames: id
+            referencedTableName: product_category
+
