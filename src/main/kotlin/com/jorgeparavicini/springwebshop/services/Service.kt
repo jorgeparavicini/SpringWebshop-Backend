@@ -1,12 +1,14 @@
 package com.jorgeparavicini.springwebshop.services
 
 import com.jorgeparavicini.springwebshop.database.entities.BaseEntity
+import com.jorgeparavicini.springwebshop.database.repositories.BaseRepository
 import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import com.jorgeparavicini.springwebshop.dto.DTO
 import org.springframework.data.repository.CrudRepository
 import org.webjars.NotFoundException
+import javax.transaction.Transactional
 
-interface Service<TEntity : BaseEntity, TDto : DTO, TRepo : CrudRepository<TEntity, Long>> {
+interface Service<TEntity : BaseEntity, TDto : DTO, TRepo : BaseRepository<TEntity>> {
 
     val repo: TRepo
 
@@ -35,7 +37,8 @@ interface Service<TEntity : BaseEntity, TDto : DTO, TRepo : CrudRepository<TEnti
         return repo.save(entity).toDto()
     }
 
+    @Transactional
     fun delete(id: Long) {
-        repo.deleteById(id)
+        repo.softDelete(id)
     }
 }

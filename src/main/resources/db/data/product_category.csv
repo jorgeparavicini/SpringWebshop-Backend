@@ -1,3 +1,5 @@
-id,name,description
-1,Category 1,Category 1
-2,Category 2,Category 2
+id,name,description,icon,parent_category_id
+1,Audio,Audio related products,headphones,
+2,Network,Network related products,network-wired,
+3,PC Components,Everything you need to build a pc,computer,
+4,GPU,Graphic Cards,microchip,3

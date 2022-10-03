@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1664124688515-1
+      id: 1664819328290-1
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -17,6 +17,12 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
+                  defaultValueBoolean: false
+                  name: deleted
+                  type: Boolean
+              - column:
+                  constraints:
+                    nullable: false
                   name: product_id
                   type: BIGINT
               - column:
@@ -29,7 +35,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: order_item
   - changeSet:
-      id: 1664124688515-2
+      id: 1664819328290-2
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -44,11 +50,17 @@ databaseChangeLog:
                   name: id
                   type: BIGINT
               - column:
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+                  name: deleted
+                  type: Boolean
+              - column:
                   name: name
                   type: VARCHAR(255)
               - column:
                   name: description
-                  type: VARCHAR(255)
+                  type: VARCHAR(2500)
               - column:
                   constraints:
                     nullable: false
@@ -66,7 +78,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: product
   - changeSet:
-      id: 1664124688515-3
+      id: 1664819328290-3
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -81,14 +93,26 @@ databaseChangeLog:
                   name: id
                   type: BIGINT
               - column:
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+                  name: deleted
+                  type: Boolean
+              - column:
                   name: name
                   type: VARCHAR(255)
               - column:
                   name: description
+                  type: VARCHAR(2500)
+              - column:
+                  name: icon
                   type: VARCHAR(255)
+              - column:
+                  name: parent_category_id
+                  type: BIGINT
             tableName: product_category
   - changeSet:
-      id: 1664124688515-4
+      id: 1664819328290-4
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -103,8 +127,14 @@ databaseChangeLog:
                   name: id
                   type: BIGINT
               - column:
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+                  name: deleted
+                  type: Boolean
+              - column:
                   name: comments
-                  type: VARCHAR(255)
+                  type: VARCHAR(2500)
               - column:
                   name: street
                   type: VARCHAR(255)
@@ -122,7 +152,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: product_order
   - changeSet:
-      id: 1664124688515-5
+      id: 1664819328290-5
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -136,6 +166,12 @@ databaseChangeLog:
                     primaryKeyName: pk_relatedproduct
                   name: id
                   type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+                  name: deleted
+                  type: Boolean
               - column:
                   constraints:
                     nullable: false
@@ -153,7 +189,45 @@ databaseChangeLog:
                   type: FLOAT
             tableName: related_product
   - changeSet:
-      id: 1664124688515-6
+      id: 1664819328290-6
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  autoIncrement: true
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_review
+                  name: id
+                  type: BIGINT
+              - column:
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+                  name: deleted
+                  type: Boolean
+              - column:
+                  constraints:
+                    nullable: false
+                  name: product_id
+                  type: BIGINT
+              - column:
+                  name: user_id
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: rating
+                  type: INT
+              - column:
+                  name: comment
+                  type: VARCHAR(2500)
+            tableName: review
+  - changeSet:
+      id: 1664819328290-7
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -170,6 +244,12 @@ databaseChangeLog:
               - column:
                   constraints:
                     nullable: false
+                  defaultValueBoolean: false
+                  name: deleted
+                  type: Boolean
+              - column:
+                  constraints:
+                    nullable: false
                   name: product_id
                   type: BIGINT
               - column:
@@ -182,7 +262,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: shopping_cart_item
   - changeSet:
-      id: 1664124688515-7
+      id: 1664819328290-8
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -197,11 +277,17 @@ databaseChangeLog:
                   name: id
                   type: BIGINT
               - column:
+                  constraints:
+                    nullable: false
+                  defaultValueBoolean: false
+                  name: deleted
+                  type: Boolean
+              - column:
                   name: name
                   type: VARCHAR(255)
               - column:
                   name: description
-                  type: VARCHAR(255)
+                  type: VARCHAR(2500)
               - column:
                   name: street
                   type: VARCHAR(255)
@@ -216,7 +302,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: vendor
   - changeSet:
-      id: 1664124688515-8
+      id: 1664819328290-9
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -227,7 +313,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product_order
   - changeSet:
-      id: 1664124688515-9
+      id: 1664819328290-10
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -238,7 +324,18 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product
   - changeSet:
-      id: 1664124688515-10
+      id: 1664819328290-11
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: parent_category_id
+            baseTableName: product_category
+            constraintName: FK_PRODUCTCATEGORY_ON_PARENT_CATEGORY
+            referencedColumnNames: id
+            referencedTableName: product_category
+  - changeSet:
+      id: 1664819328290-12
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -249,7 +346,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product_category
   - changeSet:
-      id: 1664124688515-11
+      id: 1664819328290-13
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -260,7 +357,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: vendor
   - changeSet:
-      id: 1664124688515-12
+      id: 1664819328290-14
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -271,7 +368,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product
   - changeSet:
-      id: 1664124688515-13
+      id: 1664819328290-15
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -282,7 +379,18 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product
   - changeSet:
-      id: 1664124688515-14
+      id: 1664819328290-16
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - addForeignKeyConstraint:
+            baseColumnNames: product_id
+            baseTableName: review
+            constraintName: FK_REVIEW_ON_PRODUCT
+            referencedColumnNames: id
+            referencedTableName: product
+  - changeSet:
+      id: 1664819328290-17
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:

@@ -1,9 +1,8 @@
 package com.jorgeparavicini.springwebshop.database.repositories
 
 import com.jorgeparavicini.springwebshop.database.entities.Review
-import org.springframework.data.repository.CrudRepository
 
-interface ReviewRepository : CrudRepository<Review, Long> {
+interface ReviewRepository : BaseRepository<Review> {
     fun findAllByProductId(productId: Long): Iterable<Review>
 
     fun findByIdAndProductId(id: Long, productId: Long): Review?

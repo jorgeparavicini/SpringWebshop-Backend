@@ -5,7 +5,9 @@ import javax.persistence.*
 @Entity
 class ProductCategory(
     val name: String,
+    @Column(length = 2500)
     val description: String? = null,
+    val icon: String? = null,
 
     @ManyToOne(optional = true)
     @JoinColumn(name = "parent_category_id", nullable = true)
@@ -17,7 +19,5 @@ class ProductCategory(
     @OneToMany(mappedBy = "category")
     val products: List<Product>,
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long? = null
-): BaseEntity()
+    id: Long? = null
+) : BaseEntity(id = id)
