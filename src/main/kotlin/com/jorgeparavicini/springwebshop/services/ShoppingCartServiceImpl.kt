@@ -50,6 +50,8 @@ class ShoppingCartServiceImpl(
     }
 
     override fun delete(id: Long) {
-        repo.deleteByIdAndUserId(id, userId)
+        val cartItem = repo.findByIdOrNull(id) ?: return
+        if (cartItem.userId != userId) throw UnauthorizedException("Can not delete item from another users cart")
+        repo.softDelete(id)
     }
 }

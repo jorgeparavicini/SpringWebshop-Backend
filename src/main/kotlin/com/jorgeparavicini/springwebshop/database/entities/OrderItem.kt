@@ -14,8 +14,4 @@ class OrderItem(
     val product: Product,
 
     val quantity: Int,
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long? = null
 ) : BaseEntity()

@@ -33,7 +33,7 @@ class OrderServiceImpl(
 
     private fun CreateOrderDTO.toEntity(): Order {
         val orderItems = shoppingCartRepo.findByUserId(userId).map { it.toOrderItem() }.toSet()
-        return Order(comments, street, city, postalCode, country, orderItems, userId, 0)
+        return Order(comments, street, city, postalCode, country, orderItems, userId)
     }
 
     override fun getAll(): List<OrderDTO> {

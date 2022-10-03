@@ -115,7 +115,7 @@ class ProductServiceImpl(
         relatedProductRepo.findByIdOrNull(relatedProductId)?.let {
             if (it.product.id != productId)
                 throw BadRequestException("The passed id ($productId) does not match the id of the product: ${it.product.id}")
-            relatedProductRepo.deleteById(relatedProductId)
+            relatedProductRepo.softDelete(relatedProductId)
         }
     }
 
@@ -155,6 +155,8 @@ class ProductServiceImpl(
 
     @Transactional
     override fun deleteReview(productId: Long, reviewId: Long) {
-        reviewRepo.deleteByIdAndProductId(reviewId, productId)
+        val review = reviewRepo.findByIdAndProductId(reviewId, productId) ?: return
+        if (review.userId != userId) throw UnauthorizedException("Can not delete review of another person")
+        reviewRepo.softDelete(reviewId)
     }
 }

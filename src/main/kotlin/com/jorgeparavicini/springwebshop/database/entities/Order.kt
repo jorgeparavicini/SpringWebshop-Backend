@@ -5,6 +5,7 @@ import javax.persistence.*
 @Entity
 @Table(name = "product_order")
 class Order(
+    @Column(length = 2500)
     val comments: String,
     val street: String,
     val city: String,
@@ -17,7 +18,5 @@ class Order(
 
     val userId: String,
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long? = null
-) : BaseEntity()
+    id: Long? = null
+) : BaseEntity(id = id)

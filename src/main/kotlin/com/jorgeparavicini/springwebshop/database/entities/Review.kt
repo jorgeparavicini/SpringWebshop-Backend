@@ -1,6 +1,9 @@
 package com.jorgeparavicini.springwebshop.database.entities
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 import javax.validation.constraints.Max
 import javax.validation.constraints.Min
 
@@ -16,9 +19,8 @@ class Review(
     @Max(value = 5)
     val rating: Int,
 
+    @Column(length = 2500)
     val comment: String?,
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long? = null
-) : BaseEntity()
+    id: Long? = null
+) : BaseEntity(id = id)

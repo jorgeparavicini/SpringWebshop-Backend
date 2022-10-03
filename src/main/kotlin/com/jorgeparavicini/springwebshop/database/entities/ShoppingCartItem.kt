@@ -12,7 +12,5 @@ class ShoppingCartItem(
 
     val userId: String,
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long? = null
-): BaseEntity()
+    id: Long? = null
+): BaseEntity(id = id)

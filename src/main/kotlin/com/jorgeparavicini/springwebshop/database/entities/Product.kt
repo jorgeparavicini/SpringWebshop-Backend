@@ -1,10 +1,14 @@
 package com.jorgeparavicini.springwebshop.database.entities
 
-import javax.persistence.*
+import javax.persistence.Column
+import javax.persistence.Entity
+import javax.persistence.JoinColumn
+import javax.persistence.ManyToOne
 
 @Entity
 class Product(
     val name: String,
+    @Column(length = 2500)
     val description: String,
     val price: Float,
 
@@ -16,7 +20,5 @@ class Product(
     @JoinColumn(name = "vendor_id", nullable = false)
     val vendor: Vendor,
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    override val id: Long? = null
-) : BaseEntity()
+    id: Long? = null
+) : BaseEntity(id = id)
