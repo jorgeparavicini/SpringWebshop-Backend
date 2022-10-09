@@ -2,9 +2,8 @@ package com.jorgeparavicini.springwebshop.services
 
 import com.jorgeparavicini.springwebshop.database.entities.BaseEntity
 import com.jorgeparavicini.springwebshop.database.repositories.BaseRepository
-import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import com.jorgeparavicini.springwebshop.dto.DTO
-import org.springframework.data.repository.CrudRepository
+import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
 import org.webjars.NotFoundException
 import javax.transaction.Transactional
 

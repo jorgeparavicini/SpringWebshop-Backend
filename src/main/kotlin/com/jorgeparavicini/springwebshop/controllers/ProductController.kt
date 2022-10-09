@@ -1,13 +1,11 @@
 package com.jorgeparavicini.springwebshop.controllers
 
-import com.jorgeparavicini.springwebshop.dto.CreateReviewDTO
-import com.jorgeparavicini.springwebshop.dto.ProductDTO
-import com.jorgeparavicini.springwebshop.dto.RelatedProductDTO
-import com.jorgeparavicini.springwebshop.dto.ReviewDTO
+import com.jorgeparavicini.springwebshop.dto.*
 import com.jorgeparavicini.springwebshop.services.ProductService
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import javax.validation.Valid
 
 @RestController
@@ -25,7 +23,7 @@ class ProductController(private val service: ProductService) {
 
     @PostMapping
     @PreAuthorize("hasAuthority('create:product')")
-    fun create(@Valid @RequestBody newProduct: ProductDTO): ProductDTO {
+    fun create(@Valid @RequestPart("dto") newProduct: ProductDTO): ProductDTO {
         return service.create(newProduct)
     }
 

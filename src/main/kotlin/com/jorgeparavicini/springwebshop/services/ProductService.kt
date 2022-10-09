@@ -3,10 +3,8 @@ package com.jorgeparavicini.springwebshop.services
 import com.jorgeparavicini.springwebshop.database.entities.Product
 import com.jorgeparavicini.springwebshop.database.entities.ProductCategory
 import com.jorgeparavicini.springwebshop.database.repositories.ProductRepository
-import com.jorgeparavicini.springwebshop.dto.CreateReviewDTO
-import com.jorgeparavicini.springwebshop.dto.ProductDTO
-import com.jorgeparavicini.springwebshop.dto.RelatedProductDTO
-import com.jorgeparavicini.springwebshop.dto.ReviewDTO
+import com.jorgeparavicini.springwebshop.dto.*
+import org.springframework.web.multipart.MultipartFile
 
 interface ProductService : Service<Product, ProductDTO, ProductRepository> {
     fun getAll(categoryId: Long?): Iterable<ProductDTO>
