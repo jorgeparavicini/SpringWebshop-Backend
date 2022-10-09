@@ -29,7 +29,7 @@ class ProductServiceImpl(
     private val userId: String
         get() = SecurityContextHolder.getContext()?.authentication?.name ?: throw UnauthorizedException()
 
-    override fun Product.toDto() = ProductDTO(id!!, name, description, price, category.id!!, vendor.id!!)
+    override fun Product.toDto() = ProductDTO(id!!, name, description, thumbnailUri, price, category.id!!, vendor.id!!)
 
     private fun ProductCategory.categoriesId(): Collection<Long> {
         val queue = ArrayDeque(listOf(this))
@@ -46,7 +46,7 @@ class ProductServiceImpl(
     override fun ProductDTO.toEntity(): Product {
         val category = categoryRepo.findByIdOrNull(categoryId) ?: throw NotFoundException("Category not found")
         val vendor = vendorRepo.findByIdOrNull(vendorId) ?: throw NotFoundException("Vendor not found")
-        return Product(name, description, price, category, vendor, id)
+        return Product(name, description, price, thumbnailUri, category, vendor, id)
     }
 
     private fun RelatedProduct.toDto() = RelatedProductDTO(id!!, product.id!!, relatedProduct.id!!, relevance)

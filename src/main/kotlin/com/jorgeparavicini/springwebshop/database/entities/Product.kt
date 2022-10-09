@@ -11,6 +11,7 @@ class Product(
     @Column(length = 2500)
     val description: String,
     val price: Float,
+    val thumbnailUri: String,
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false)

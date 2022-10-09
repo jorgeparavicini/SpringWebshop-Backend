@@ -1,6 +1,6 @@
 databaseChangeLog:
   - changeSet:
-      id: 1664819328290-1
+      id: 1665237708618-1
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -35,7 +35,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: order_item
   - changeSet:
-      id: 1664819328290-2
+      id: 1665237708618-2
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -67,6 +67,9 @@ databaseChangeLog:
                   name: price
                   type: FLOAT
               - column:
+                  name: thumbnail_uri
+                  type: VARCHAR(255)
+              - column:
                   constraints:
                     nullable: false
                   name: category_id
@@ -78,7 +81,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: product
   - changeSet:
-      id: 1664819328290-3
+      id: 1665237708618-3
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -112,7 +115,7 @@ databaseChangeLog:
                   type: BIGINT
             tableName: product_category
   - changeSet:
-      id: 1664819328290-4
+      id: 1665237708618-4
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -152,7 +155,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: product_order
   - changeSet:
-      id: 1664819328290-5
+      id: 1665237708618-5
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -189,7 +192,7 @@ databaseChangeLog:
                   type: FLOAT
             tableName: related_product
   - changeSet:
-      id: 1664819328290-6
+      id: 1665237708618-6
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -227,7 +230,7 @@ databaseChangeLog:
                   type: VARCHAR(2500)
             tableName: review
   - changeSet:
-      id: 1664819328290-7
+      id: 1665237708618-7
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -262,7 +265,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: shopping_cart_item
   - changeSet:
-      id: 1664819328290-8
+      id: 1665237708618-8
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -302,7 +305,7 @@ databaseChangeLog:
                   type: VARCHAR(255)
             tableName: vendor
   - changeSet:
-      id: 1664819328290-9
+      id: 1665237708618-9
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -313,7 +316,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product_order
   - changeSet:
-      id: 1664819328290-10
+      id: 1665237708618-10
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -324,7 +327,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product
   - changeSet:
-      id: 1664819328290-11
+      id: 1665237708618-11
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -335,7 +338,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product_category
   - changeSet:
-      id: 1664819328290-12
+      id: 1665237708618-12
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -346,7 +349,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product_category
   - changeSet:
-      id: 1664819328290-13
+      id: 1665237708618-13
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -357,7 +360,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: vendor
   - changeSet:
-      id: 1664819328290-14
+      id: 1665237708618-14
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -368,7 +371,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product
   - changeSet:
-      id: 1664819328290-15
+      id: 1665237708618-15
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -379,7 +382,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product
   - changeSet:
-      id: 1664819328290-16
+      id: 1665237708618-16
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:
@@ -390,7 +393,7 @@ databaseChangeLog:
             referencedColumnNames: id
             referencedTableName: product
   - changeSet:
-      id: 1664819328290-17
+      id: 1665237708618-17
       author: jorge (generated)
       objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
       changes:

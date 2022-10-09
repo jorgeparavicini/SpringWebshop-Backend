@@ -5,13 +5,14 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpMethod
 import org.springframework.web.servlet.config.annotation.CorsRegistry
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
 class ApplicationConfig(
     @Value("\${cors.allowed-origins}")
     private val corsOrigin: String
-): WebMvcConfigurer {
+) : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
@@ -20,5 +21,10 @@ class ApplicationConfig(
             .allowedMethods(HttpMethod.GET.name)
             .allowCredentials(true)
             .maxAge(86400)
+    }
+
+    override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
+        registry.addResourceHandler("/upload/**")
+            .addResourceLocations("file:///" + System.getProperty("user.dir") + "/upload/");
     }
 }
