@@ -77,7 +77,44 @@ dann wird ein `403 Forbidden` Fehler zurückgegeben.
 
 ### Backend
 
-TO-DO: Entwurf Backend
+#### Architektur
+
+![Architektur Backend](resources/img/Springshop%20Architecture.png)
+
+Das Backend wird mit der MVC Architektur aufgebaut. Ein Benutzer sendet eine Request an das Backend an einen Controller
+und gibt dabei ein optionales Input DTO (Data Transfer Object) mit. Der Controller ist dafür verantwortlich
+diese Request zu verarbeiten. Er sendet sie weiter an ein bestimmtes Service. Dieser Service verbindet 
+sich mit einem oder mehreren Repositories um die Entities anzupassen im Falle einer POST, PUT oder DELETE Request,
+oder Werte von den Entities zu holen im Falle einer GET Request.
+
+Nachdem das Service fertig ist, sendet es ein Output DTO zurück an den Controller. Der Controller wandelt
+das DTO in ein JSON um, welches verwendet wird um die Verbindung zwischen Front- und Backend sicherzustellen.
+
+#### Klassendiagramm
+
+![Klassendiagramm](resources/img/Springshop%20Klassendiagramm.png)
+
+In diesem Klassendiagramm sieht man die Endpoints welche die Controller besitzen werden. Jede Methode 
+von einem Controller wird ein Endpoint sein. Jeder Controller hat einen zuständigen Service (im Bild gekennzeichnet mit dem gleichen Namen).
+
+Die Services sind folgendermassen aufgebaut. Jeder Service erbt die CRUD Methoden des Baseservice (IService).
+Der Service muss die methoden des Interfaces implementieren. Ein Service hat Zugriff auf einen oder mehrere
+Repositories. In diesen Repositories wird der Zugriff auf die Entities der Datenbank gewährleistet.
+
+Über den Controller, Service, Repositories und Entities gibt es den Global Exception Handler. 
+Dieser ist verantwortlich, alle Exceptions zu fangen und wandelt diese in einen äquivalenten Status Code. 
+Das heisst, falls eine Exception `NotFoundException` in einem Service geworfen wird, dann fängt der Exception Handler
+diesen Fehler und gibt dem Benutzer eine Antwort mit dem Status Code `404 Not Found`. Dies wurde für alle 
+bekannten Fehlermeldungen gemacht, und vereinfacht die Logik in den Controller um einiges.
+
+
+#### Entities
+
+![Entities](resources/img/Springshop%20Entities.png)
+
+In diesem Diagramm sieht man, wie die Datenbank aufgebaut wird. Nicht zu sehen sind alle Tabellen die mit
+den Benutzern zu tun haben. Diese werden extern in einer zweiten Datenbank gespeichert die von `auth0` 
+verwaltet wird.
 
 ### Frontend
 
@@ -128,3 +165,49 @@ Die nächsten Schritte werden sein:
 * Architektur des Backends vervollständigen und dokumentieren
 * Autorisierung und Authentifizierung im Backend mit dem Auth0 Server verbinden
 * Definierte Schnittstellen im Backend umsetzen und Dokumentieren
+
+---
+
+### Statusbericht 26.10.2922 <a name="statzsbericht-2"></a>
+
+Der Schwerpunkt des zweiten Abschnitt der Semesterarbeit war, das Backend fertig zu entwerfen und sicherstellen, 
+dass alles bereit ist, das Frontend zu entwickeln. Deswegen wurde als Erstes die genauere Architektur des 
+Backends definiert. Diese befindet sich in diesem Dokument unter Einführung > Backend > Architektur
+
+Der nächste Schritt war die Schnittstelle des Backends zu definieren. Dafür wurde ein Klassendiagramm erstellt,
+wobei die Methoden der Klassen im Bereich `Controllers` die Endpoints darstellen. Somit, ist klar definiert,
+was das Backend können muss und wie der Benutzer mit der API interagieren wird. Zusätzlich wird im Klassendiagramm
+die Beziehung zwischen den Controller, Service und den Repositories dargestellt. Weiterführend, wurde noch
+erklärt wie Fehler behandelt werden im Backend. Der Grund für das Error-Handling ist, dass möglichst keine 
+`500 Internal Error` an den User zurückgegeben werden, sondern genauere Fehlermeldungen welche sagen was genau
+falsch gelaufen ist.
+
+Als Nächstes wurde das Entity-Relation-Diagramm erstellt. Dieses Diagramm wurde von den Anforderungen des 
+Klassendiagramms abgeleitet und komplett normalisiert. Wichtig bei diesem Diagramm ist, dass es keine Informationen
+bezüglich Benutzer enthält. Diese wird in einer separaten Datenbank gespeichert welche vom Identity Management 
+System verwaltet wird.
+
+---
+
+Nun wurde der Entwurf fertiggestellt und die Entwicklung konnte begonnen werden. Als Erstes wurden die Entities
+erstellt und deren dazugehörigen Repositories entwickelt. Danach wurden die Services für jedes Feature geschrieben. 
+In diesen Services ist der Hauptteil der Businesslogik. Schlussendlich wurden Controllers erstellt welche
+mit den Services kommunizieren, um die Requests der Benutzer zu bearbeiten. 
+
+Der nächste Schritt war, das Backend mit `auth0` zu verbinden. `Auth0` ist das System, dass verwendet wird, um
+Users zu authentifizieren und authorisieren. Grundsätzlich wurden alle GET Endpoints frei gelassen, das heisst man 
+muss nicht eingeloggt sein, um diese auszuführen. Die einzigen GET Endpoints die nicht frei sind, sind welche mit
+einem Benutzer verbunden sind, zum Beispiel der Einkaufswagen. Man kann nur sein persönlicher Wagen anschauen.
+
+Alle anderen Endpoints wurden mit einem Scope ausgestattet. Wenn jemand sich einloggt, kriegt dieser einen
+Bearer Token worin alle permissions drin sind, welche der Benutzer besitzt. Um einen beschützten Endpoint auszuführen, 
+muss der Benutzer die richtigen Berechtigungen haben. Zum Beispiel um den Endpoint `CREATE Product` auszuführen,
+braucht der Benutzer die Permission `create-product`. In dem folgenden Bild wird ein Token dargestellt, welcher
+alle Permissions besitzt:
+
+![JWT Token example](resources/img/jwt-token.png)
+
+Nun ist das Backend komplett funktionsfähig und die Entwicklung des Frontend konnte angefangen werden.
+Auf dem folgenden Bild ist ein erster Blick ins Frontend sichtbar:
+
+![Shop](resources/img/shop.png)
