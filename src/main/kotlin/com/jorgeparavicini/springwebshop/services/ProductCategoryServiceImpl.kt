@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import java.lang.Exception
+import javax.transaction.Transactional
 
 @Service
 class ProductCategoryServiceImpl(override val repo: ProductCategoryRepository) : ProductCategoryService {
@@ -23,6 +24,7 @@ class ProductCategoryServiceImpl(override val repo: ProductCategoryRepository) :
         return ProductCategory(name, description, icon, category, emptyList(), emptyList(), id)
     }
 
+    @Transactional
     override fun delete(id: Long) {
         try {
             super.delete(id)

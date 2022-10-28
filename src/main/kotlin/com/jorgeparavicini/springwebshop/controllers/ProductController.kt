@@ -2,18 +2,38 @@ package com.jorgeparavicini.springwebshop.controllers
 
 import com.jorgeparavicini.springwebshop.dto.*
 import com.jorgeparavicini.springwebshop.services.ProductService
+import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
-import org.springframework.web.multipart.MultipartFile
 import javax.validation.Valid
 
 @RestController
 @RequestMapping(path = ["api/products"], produces = [MediaType.APPLICATION_JSON_VALUE])
 class ProductController(private val service: ProductService) {
     @GetMapping
-    fun getAll(@RequestParam category: Long?): List<ProductDTO> {
-        return service.getAll(category).toList()
+    fun getAll(
+        @RequestParam(defaultValue = "0") page: Int,
+        @RequestParam(defaultValue = "20") pageSize: Int,
+        @RequestParam category: Long,
+        @RequestParam filteredCategories: List<Long>?,
+        @RequestParam filteredVendors: List<Long>?,
+        @RequestParam minPrice: Float?,
+        @RequestParam maxPrice: Float?,
+        @RequestParam maxShippingPrice: Float?,
+        @RequestParam minRating: Int?
+    ): ProductListFilterInfo {
+        val pageable = PageRequest.of(page, pageSize)
+        return service.getAll(
+            pageable,
+            category,
+            filteredCategories,
+            filteredVendors,
+            minPrice,
+            maxPrice,
+            maxShippingPrice,
+            minRating
+        )
     }
 
     @GetMapping("{id}")

@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1666942756225-1
+      author: jorge (generated)
+      objectQuotingStrategy: QUOTE_ONLY_RESERVED_WORDS
+      changes:
+        - dropNotNullConstraint:
+            columnDataType: float
+            columnName: old_price
+            tableName: product
+
