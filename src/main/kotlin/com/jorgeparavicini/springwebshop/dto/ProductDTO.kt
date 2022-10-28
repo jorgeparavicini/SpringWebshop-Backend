@@ -4,8 +4,11 @@ data class ProductDTO(
     override var id: Long,
     var name: String,
     var description: String,
+    var shippingPrice: Float,
+    val oldPrice: Float?,
     var thumbnailUri: String,
     var price: Float,
     var categoryId: Long,
-    var vendorId: Long
+    var vendorId: Long,
+    val averageRating: Float?
 ) : DTO()

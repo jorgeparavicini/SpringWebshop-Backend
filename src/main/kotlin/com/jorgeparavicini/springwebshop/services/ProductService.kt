@@ -1,13 +1,21 @@
 package com.jorgeparavicini.springwebshop.services
 
 import com.jorgeparavicini.springwebshop.database.entities.Product
-import com.jorgeparavicini.springwebshop.database.entities.ProductCategory
 import com.jorgeparavicini.springwebshop.database.repositories.ProductRepository
 import com.jorgeparavicini.springwebshop.dto.*
-import org.springframework.web.multipart.MultipartFile
+import org.springframework.data.domain.Pageable
 
 interface ProductService : Service<Product, ProductDTO, ProductRepository> {
-    fun getAll(categoryId: Long?): Iterable<ProductDTO>
+    fun getAll(
+        pageable: Pageable,
+        category: Long,
+        categories: List<Long>?,
+        vendors: List<Long>?,
+        minPrice: Float?,
+        maxPrice: Float?,
+        maxShippingPrice: Float?,
+        minRating: Int?
+    ): ProductListFilterInfo
 
     fun getAllRelatedProducts(productId: Long): Iterable<RelatedProductDTO>
 

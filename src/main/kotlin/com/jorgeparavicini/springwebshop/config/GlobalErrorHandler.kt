@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.security.access.AccessDeniedException
 import org.springframework.validation.FieldError
 import org.springframework.web.bind.MethodArgumentNotValidException
+import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -31,6 +32,12 @@ class GlobalErrorHandler {
         val fieldErrors =
             error.bindingResult.fieldErrors.map { FieldError(it.objectName, it.field, it.defaultMessage ?: "") }
         return ValidationErrorMessage("validation error", fieldErrors)
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler
+    fun handleBadRequest(request: HttpServletRequest, error: MissingServletRequestParameterException): ErrorMessage {
+        return ErrorMessage(error.message)
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
