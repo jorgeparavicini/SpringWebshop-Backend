@@ -22,6 +22,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-resource-server")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-validation")
 
     // Other dependencies
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -34,10 +35,11 @@ dependencies {
     implementation("org.springdoc:springdoc-openapi-security:1.6.11")
 
     // Database
-    runtimeOnly("com.h2database:h2")
-    //runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("mysql:mysql-connector-java")
+    implementation("org.liquibase:liquibase-core")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
+    developmentOnly("org.springframework.boot:spring-boot-devtools")
 }
 
 tasks.withType<KotlinCompile> {
@@ -49,4 +51,8 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+}
+
+tasks.getByName<Jar>("jar") {
+    enabled = false
 }
