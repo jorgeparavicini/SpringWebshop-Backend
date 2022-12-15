@@ -2,6 +2,7 @@ package com.jorgeparavicini.springwebshop.controllers
 
 import com.jorgeparavicini.springwebshop.dto.*
 import com.jorgeparavicini.springwebshop.services.ProductService
+import com.jorgeparavicini.springwebshop.services.RecommendedProductsService
 import org.springframework.data.domain.PageRequest
 import org.springframework.http.MediaType
 import org.springframework.security.access.prepost.PreAuthorize
@@ -10,7 +11,10 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping(path = ["api/products"], produces = [MediaType.APPLICATION_JSON_VALUE])
-class ProductController(private val service: ProductService) {
+class ProductController(
+    private val service: ProductService,
+    private val recommendedService: RecommendedProductsService
+) {
     @GetMapping
     fun getAll(
         @RequestParam(defaultValue = "0") page: Int,
@@ -21,7 +25,7 @@ class ProductController(private val service: ProductService) {
         @RequestParam minPrice: Float?,
         @RequestParam maxPrice: Float?,
         @RequestParam maxShippingPrice: Float?,
-        @RequestParam minRating: Int?
+        @RequestParam minRating: Float?
     ): ProductListFilterInfo {
         val pageable = PageRequest.of(page, pageSize)
         return service.getAll(
@@ -39,6 +43,11 @@ class ProductController(private val service: ProductService) {
     @GetMapping("{id}")
     fun find(@PathVariable id: Long): ProductDTO {
         return service.find(id)
+    }
+
+    @GetMapping("recommended")
+    fun getAll(): List<ProductDTO> {
+        return recommendedService.getAll().toList()
     }
 
     @PostMapping

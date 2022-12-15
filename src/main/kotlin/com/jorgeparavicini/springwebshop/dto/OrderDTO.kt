@@ -1,11 +1,12 @@
 package com.jorgeparavicini.springwebshop.dto
 
+import java.time.LocalDateTime
+
 data class OrderDTO(
     override var id: Long,
-    var comments: String,
-    var street: String,
-    var city: String,
-    var postalCode: String,
-    var country: String,
-    var orderItems: Set<OrderItemDTO>
+    val comments: String,
+    val address_id: Long,
+    val orderItems: Set<OrderItemDTO>,
+    val date: LocalDateTime,
+    val totalPrice: Double,
 ) : DTO()

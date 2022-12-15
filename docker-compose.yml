@@ -4,36 +4,29 @@ services:
   spring-webshop-db:
     image: "mysql/mysql-server"
     container_name: "spring-webshop-db"
-    volumes:
-      - spring-webshop-data:/var/lib/postgresql/data
+    environment:
+      - MYSQL_DATABASE=${DB_NAME}
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     ports:
       - "3306:3306"
-    environment:
-      - MYSQL_DATABASE=spring-webshop
-      - MYSQL_USER=spring-webshop
-      - MYSQL_PASSWORD=spring-webshop
-      - MYSQL_ROOT_PASSWORD=spring-webshop
+    healthcheck:
+      test: [ "CMD", 'mysqladmin', 'ping', '-h', 'localhost', '-u', 'root', '-p$MYSQL_ROOT_PASSWORD' ]
+      timeout: 20s
+      retries: 10
 
   spring-webshop-backend:
     build: ./
     container_name: "spring-webshop-backend"
     environment:
-      - POSTGRES_SERVER=spring-webshop-db
-      - POSTGRES_DB=spring-webshop
-      - POSTGRES_USER=spring-webshop
-      - POSTGRES_PASSWORD=spring-webshop
+      - MYSQL_DB=${DB_NAME}
+      - MYSQL_SERVER=spring-webshop-db
+      - MYSQL_USER=${DB_USER}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
+      - MYSQL_PORT=3306
     ports:
       - "8080:8080"
-    links:
-      - spring-webshop-db
-
-  #spring-webshop-frontend:
-  #  build: ../spring-webshop-frontend
-  #  container_name: "spring-webshop-frontend"
-  #  ports:
-  #    - "4200:80"
-  #  links:
-  #    - spring-webshop-backend
-
-volumes:
-  spring-webshop-data:
+    depends_on:
+      spring-webshop-db:
+        condition: service_healthy

@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1663411279220-1
+      author: Jorge Paravicini
+      changes:
+        - loadData:
+            encoding: UTF-8
+            tableName: address
+            file: db/data/address.csv
+            separator: ','
+        - loadData:
+            encoding: UTF-8
+            tableName: product_category
+            file: db/data/product_category.csv
+            separator: ','
+        - loadData:
+            encoding: UTF-8
+            tableName: vendor
+            file: db/data/vendor.csv
+            separator: ','
+        - loadData:
+            encoding: UTF-8
+            tableName: product
+            file: db/data/product.csv
+            separator: ','

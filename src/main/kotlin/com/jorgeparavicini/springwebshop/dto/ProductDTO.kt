@@ -10,5 +10,6 @@ data class ProductDTO(
     var price: Float,
     var categoryId: Long,
     var vendorId: Long,
-    val averageRating: Float?
+    val averageRating: Float?,
+    val nrOfRatings: Int,
 ) : DTO()

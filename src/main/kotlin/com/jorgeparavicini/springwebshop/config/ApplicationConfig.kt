@@ -18,7 +18,7 @@ class ApplicationConfig(
         registry.addMapping("/**")
             .allowedOrigins(corsOrigin)
             .allowedHeaders(HttpHeaders.AUTHORIZATION, HttpHeaders.CONTENT_TYPE)
-            .allowedMethods(HttpMethod.GET.name)
+            .allowedMethods(HttpMethod.GET.name, HttpMethod.POST.name, HttpMethod.PUT.name, HttpMethod.DELETE.name)
             .allowCredentials(true)
             .maxAge(86400)
     }

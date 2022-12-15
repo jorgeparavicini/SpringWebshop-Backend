@@ -1,8 +1,10 @@
 package com.jorgeparavicini.springwebshop.database.entities
 
+import org.hibernate.annotations.Where
 import javax.persistence.*
 
 @Entity
+@Where(clause = "deleted=false")
 class ProductCategory(
     val name: String,
     @Column(length = 2500)

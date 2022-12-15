@@ -1,6 +1,7 @@
 package com.jorgeparavicini.springwebshop.database.repositories
 
 import com.jorgeparavicini.springwebshop.database.entities.ShoppingCartItem
+import org.springframework.data.jpa.repository.Query
 import java.util.*
 
 interface ShoppingCartItemRepository : BaseRepository<ShoppingCartItem> {
