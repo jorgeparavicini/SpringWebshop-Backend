@@ -35,7 +35,8 @@ class ProductServiceImpl(
             price,
             category.id!!,
             vendor.id!!,
-            repo.getAverageRating(id)
+            repo.getAverageRating(id),
+            repo.getNrOfRatings(id)
         )
 
     override fun ProductDTO.toEntity(): Product {
@@ -63,9 +64,6 @@ class ProductServiceImpl(
         return Review(product, userId, rating, comment, id ?: 0)
     }
 
-    private fun ProductCategory.toDto() = ProductCategoryDTO(id!!, name, description, icon, parentCategory?.id)
-    private fun Vendor.toDto() = VendorDTO(id!!, name, description, street, city, postalCode, country)
-
     override fun getAll(
         pageable: Pageable,
         category: Long,
@@ -74,12 +72,12 @@ class ProductServiceImpl(
         minPrice: Float?,
         maxPrice: Float?,
         maxShippingPrice: Float?,
-        minRating: Int?
+        minRating: Float?
     ): ProductListFilterInfo {
         val foundCategories = repo.getSubcategories(category)
         val products = repo.findAllBy(
             pageable,
-            foundCategories,
+            foundCategories.map { it.getId() },
             categories,
             vendors,
             minPrice,
@@ -91,11 +89,26 @@ class ProductServiceImpl(
         val simpleInfo = repo.getSimpleProductFilterInfo(category)
         val productFilterInfo =
             ProductFilterInfo(
-                foundCategories,
-                foundVendors,
-                simpleInfo[0] as Float,
-                simpleInfo[1] as Float,
-                simpleInfo[2] as Float
+                foundCategories.map {
+                    ProductCategoryDTO(
+                        it.getId(),
+                        it.getName(),
+                        it.getDescription(),
+                        it.getIcon(),
+                        it.getParentCategory()
+                    )
+                },
+                foundVendors.map {
+                    VendorDTO(
+                        it.getId(),
+                        it.getName(),
+                        it.getDescription(),
+                        it.getAddressId()
+                    )
+                },
+                simpleInfo[0] as Float? ?: 0.0f,
+                simpleInfo[1] as Float? ?: 0.0f,
+                simpleInfo[2] as Float? ?: 0.0f,
             )
         return ProductListFilterInfo(products, productFilterInfo)
     }

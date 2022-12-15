@@ -2,6 +2,6 @@ package com.jorgeparavicini.springwebshop.dto
 
 data class OrderItemDTO(
     override var id: Long,
-    var productId: Long,
-    var quantity: Int,
+    val productId: Long,
+    val quantity: Int,
 ) : DTO()

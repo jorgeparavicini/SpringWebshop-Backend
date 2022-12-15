@@ -1,15 +1,17 @@
 package com.jorgeparavicini.springwebshop.database.entities
 
 import org.hibernate.annotations.ColumnDefault
+import org.hibernate.annotations.Where
 import javax.persistence.Column
 import javax.persistence.Entity
 import javax.persistence.JoinColumn
 import javax.persistence.ManyToOne
 
 @Entity
+@Where(clause = "deleted=false")
 class Product(
     val name: String,
-    @Column(length = 2500)
+    @Column(length = 5000)
     val description: String,
     val price: Float,
     @Column(columnDefinition = "FLOAT DEFAULT 0")

@@ -11,6 +11,7 @@ import com.jorgeparavicini.springwebshop.dto.ShoppingCartItemDTO
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
+import javax.transaction.Transactional
 
 @Service
 class ShoppingCartServiceImpl(
@@ -49,6 +50,7 @@ class ShoppingCartServiceImpl(
         return repo.save(newEntity.toEntity()).toDto()
     }
 
+    @Transactional
     override fun delete(id: Long) {
         val cartItem = repo.findByIdOrNull(id) ?: return
         if (cartItem.userId != userId) throw UnauthorizedException("Can not delete item from another users cart")

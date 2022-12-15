@@ -14,7 +14,7 @@ interface ProductService : Service<Product, ProductDTO, ProductRepository> {
         minPrice: Float?,
         maxPrice: Float?,
         maxShippingPrice: Float?,
-        minRating: Int?
+        minRating: Float?
     ): ProductListFilterInfo
 
     fun getAllRelatedProducts(productId: Long): Iterable<RelatedProductDTO>

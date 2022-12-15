@@ -6,7 +6,7 @@ import javax.validation.constraints.Min
 data class CreateReviewDTO(
     var productId: Long,
 
-    @field:Min(1)
+    @field:Min(0)
     @field:Max(5)
     var rating: Int,
 

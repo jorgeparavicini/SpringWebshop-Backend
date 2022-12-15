@@ -39,7 +39,7 @@ Folgende Features sollen im Endprodukt vorhanden sein:
 * User Management
   * Sign up 
   * Login / Logout 
-  * Profil aktualisieren 
+  * ~~Profil aktualisieren~~ Gestrichen, da es nicht im Umfang des Modules ist und technisch sehr kompliziert ist umzusetzen. 
 * Inhalte 
   * Sortiment Übersicht 
   * Bestsellers die Täglich / wöchentlich ändern 
@@ -48,7 +48,7 @@ Folgende Features sollen im Endprodukt vorhanden sein:
   * Wunschliste / Merkliste 
   * Reviews und Kommentare für Produkte 
   * Bestellen mit Lieferadresse aus Konto vorausgefüllt, falls angemeldet 
-* Admin 
+* Admin (Über Swagger verfügbar)
   * Ein Admin panel um alle Produkte zu verwalten 
   * Permission- und User verwaltung 
   * Kann Rezensionen löschen (Falls sie nicht den TOS folgen)
