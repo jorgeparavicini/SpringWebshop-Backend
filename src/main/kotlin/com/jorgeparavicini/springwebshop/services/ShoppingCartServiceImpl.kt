@@ -16,26 +16,24 @@ import javax.transaction.Transactional
 @Service
 class ShoppingCartServiceImpl(
     override val repo: ShoppingCartItemRepository,
-    private val productRepo: ProductRepository
+    private val productRepo: ProductRepository,
+    private val securityService: SecurityService
 ) : ShoppingCartService {
-
-    private val userId: String
-        get() = SecurityContextHolder.getContext()?.authentication?.name ?: throw UnauthorizedException()
 
     override fun ShoppingCartItem.toDto(): ShoppingCartItemDTO = ShoppingCartItemDTO(id!!, product.id!!, quantity)
 
     override fun ShoppingCartItemDTO.toEntity(): ShoppingCartItem {
         val product = productRepo.findByIdOrNull(productId)
             ?: throw NotFoundException("Could not find product with id $productId")
-        return ShoppingCartItem(product, quantity, userId, id)
+        return ShoppingCartItem(product, quantity, securityService.userId, id)
     }
 
     override fun getAll(): Iterable<ShoppingCartItemDTO> {
-        return repo.findByUserId(userId).map { it.toDto() }
+        return repo.findByUserId(securityService.userId).map { it.toDto() }
     }
 
     override fun find(id: Long): ShoppingCartItemDTO {
-        return repo.findByIdAndUserId(id, userId)
+        return repo.findByIdAndUserId(id, securityService.userId)
             .orElseThrow { NotFoundException("Could not find shopping cart item with id $id for the current user") }
             .toDto()
     }
@@ -44,7 +42,7 @@ class ShoppingCartServiceImpl(
         if (id != newEntity.id)
             throw BadRequestException("The passed id ($id) does not match the id of the entity: ${newEntity.id}")
         val entity = repo.findByIdOrNull(id)
-        if (entity != null && entity.userId != userId) {
+        if (entity != null && entity.userId != securityService.userId) {
             throw ForbiddenException("Unable to modify shopping cart of another user.")
         }
         return repo.save(newEntity.toEntity()).toDto()
@@ -53,7 +51,7 @@ class ShoppingCartServiceImpl(
     @Transactional
     override fun delete(id: Long) {
         val cartItem = repo.findByIdOrNull(id) ?: return
-        if (cartItem.userId != userId) throw UnauthorizedException("Can not delete item from another users cart")
+        if (cartItem.userId != securityService.userId) throw UnauthorizedException("Can not delete item from another users cart")
         repo.softDelete(id)
     }
 }

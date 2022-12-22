@@ -14,25 +14,24 @@ import javax.transaction.Transactional
 @Service
 class WishlistServiceImpl(
     override val repo: WishlistItemRepository,
-    private val productRepo: ProductRepository
+    private val productRepo: ProductRepository,
+    private val securityService: SecurityService
 ) : WishlistService {
-    private val userId: String
-        get() = SecurityContextHolder.getContext()?.authentication?.name ?: throw UnauthorizedException()
 
     override fun WishlistItem.toDto() = WishlistItemDTO(id!!, product.id!!)
 
     override fun WishlistItemDTO.toEntity(): WishlistItem {
         val product = productRepo.findByIdOrNull(productId)
             ?: throw NotFoundException("Could not find product with id $productId")
-        return WishlistItem(product, userId, id)
+        return WishlistItem(product, securityService.userId, id)
     }
 
     override fun getAll(): Iterable<WishlistItemDTO> {
-        return repo.findByUserId(userId).map { it.toDto() }
+        return repo.findByUserId(securityService.userId).map { it.toDto() }
     }
 
     override fun find(id: Long): WishlistItemDTO {
-        return repo.findByIdAndUserId(id, userId)
+        return repo.findByIdAndUserId(id, securityService.userId)
             .orElseThrow { NotFoundException("Could not find wishlist item with id $id for the current user") }
             .toDto()
     }
@@ -40,7 +39,7 @@ class WishlistServiceImpl(
     @Transactional
     override fun delete(id: Long) {
         val wishlistItem = repo.findByIdOrNull(id) ?: return
-        if (wishlistItem.userId != userId) throw UnauthorizedException("Can not delete item from another users wishlist")
+        if (wishlistItem.userId != securityService.userId) throw UnauthorizedException("Can not delete item from another users wishlist")
         repo.softDelete(id)
     }
 }

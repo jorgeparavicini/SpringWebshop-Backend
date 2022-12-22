@@ -18,11 +18,9 @@ class ProductServiceImpl(
     private val categoryRepo: ProductCategoryRepository,
     private val vendorRepo: VendorRepository,
     private val relatedProductRepo: RelatedProductRepository,
-    private val reviewRepo: ReviewRepository
+    private val reviewRepo: ReviewRepository,
+    private val securityService: SecurityService
 ) : ProductService {
-
-    private val userId: String
-        get() = SecurityContextHolder.getContext()?.authentication?.name ?: throw UnauthorizedException()
 
     override fun Product.toDto() =
         ProductDTO(
@@ -61,7 +59,7 @@ class ProductServiceImpl(
         val product =
             repo.findById(productId).orElseThrow { NotFoundException("Could not find product with id: $productId") }
 
-        return Review(product, userId, rating, comment, id ?: 0)
+        return Review(product, securityService.userId, rating, comment, id ?: 0)
     }
 
     override fun getAll(
@@ -174,7 +172,7 @@ class ProductServiceImpl(
         val existingEntity = reviewRepo.findByIdAndProductId(reviewId, productId)
             ?: throw NotFoundException("Could not find review with id $reviewId for product with id $productId")
 
-        if (existingEntity.userId != userId) {
+        if (existingEntity.userId != securityService.userId) {
             throw BadRequestException("Can not update review from another user.")
         }
 
@@ -185,7 +183,7 @@ class ProductServiceImpl(
     @Transactional
     override fun deleteReview(productId: Long, reviewId: Long) {
         val review = reviewRepo.findByIdAndProductId(reviewId, productId) ?: return
-        if (review.userId != userId) throw UnauthorizedException("Can not delete review of another person")
+        if (review.userId != securityService.userId) throw UnauthorizedException("Can not delete review of another person")
         reviewRepo.softDelete(reviewId)
     }
 }

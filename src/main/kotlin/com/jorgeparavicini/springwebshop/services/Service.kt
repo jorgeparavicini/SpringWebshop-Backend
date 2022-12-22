@@ -4,7 +4,7 @@ import com.jorgeparavicini.springwebshop.database.entities.BaseEntity
 import com.jorgeparavicini.springwebshop.database.repositories.BaseRepository
 import com.jorgeparavicini.springwebshop.dto.DTO
 import com.jorgeparavicini.springwebshop.exceptions.BadRequestException
-import org.webjars.NotFoundException
+import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
 import javax.transaction.Transactional
 
 interface Service<TEntity : BaseEntity, TDto : DTO, TRepo : BaseRepository<TEntity>> {
@@ -24,7 +24,6 @@ interface Service<TEntity : BaseEntity, TDto : DTO, TRepo : BaseRepository<TEnti
     }
 
     fun create(newEntity: TDto): TDto {
-        newEntity.id = 0
         val entity = newEntity.toEntity()
         return repo.save(entity).toDto()
     }
