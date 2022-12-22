@@ -9,10 +9,7 @@ import org.springframework.data.repository.NoRepositoryBean
 interface BaseRepository<TEntity>: CrudRepository<TEntity, Long> {
 
     @Query("select e from #{#entityName} e where e.deleted = false")
-    override fun findAll(): MutableIterable<TEntity>
-
-    @Query("select e from #{#entityName} e where e.deleted = true")
-    fun recycleBin(): MutableIterable<TEntity>
+    override fun findAll(): List<TEntity>
 
     @Query("update #{#entityName} e set e.deleted = true where e.id=?1")
     @Modifying

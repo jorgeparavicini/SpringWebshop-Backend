@@ -8,6 +8,7 @@ import com.jorgeparavicini.springwebshop.dto.AddressDTO
 import com.jorgeparavicini.springwebshop.dto.UserAddressDTO
 import com.jorgeparavicini.springwebshop.exceptions.NotFoundException
 import com.jorgeparavicini.springwebshop.exceptions.UnauthorizedException
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
 import javax.transaction.Transactional
@@ -15,10 +16,9 @@ import javax.transaction.Transactional
 @Service
 class UserAddressServiceImpl(
     val repo: UserAddressRepository,
-    val addressRepo: AddressRepository
+    val addressRepo: AddressRepository,
+    val securityService: SecurityService
 ) : UserAddressService {
-    private val userId: String
-        get() = SecurityContextHolder.getContext()?.authentication?.name ?: throw UnauthorizedException()
 
     private fun Address.toDto() = AddressDTO(id!!, street, city, state, zipCode, country)
 
@@ -29,11 +29,11 @@ class UserAddressServiceImpl(
     fun UserAddress.toDto() = UserAddressDTO(id!!, name, address.toDto())
 
     override fun getAll(): Iterable<UserAddressDTO> {
-        return repo.getAllByUserId(userId).map { it.toDto() }
+        return repo.getAllByUserId(securityService.userId).map { it.toDto() }
     }
 
     override fun find(id: Long): UserAddressDTO {
-        return repo.findByUserIdAndId(userId, id)
+        return repo.findByUserIdAndId(securityService.userId, id)
             .orElseThrow { NotFoundException("User address not found") }
             .toDto()
     }
@@ -41,13 +41,13 @@ class UserAddressServiceImpl(
     @Transactional
     override fun create(newEntity: UserAddressDTO): UserAddressDTO {
         val address = addressRepo.save(newEntity.address.toEntity());
-        val userAddress = UserAddress(newEntity.name, userId, address)
+        val userAddress = UserAddress(newEntity.name, securityService.userId, address)
         return repo.save(userAddress).toDto()
     }
 
     @Transactional
     override fun update(id: Long, newEntity: UserAddressDTO): UserAddressDTO {
-        val userAddress = repo.findByUserIdAndId(userId, id).orElseThrow { NotFoundException("User address not found") }
+        val userAddress = repo.findByUserIdAndId(securityService.userId, id).orElseThrow { NotFoundException("User address not found") }
         val address = Address(
             newEntity.address.street,
             newEntity.address.city,
@@ -57,13 +57,15 @@ class UserAddressServiceImpl(
             userAddress.id
         )
         val savedAddress = addressRepo.save(address)
-        val updatedUserAddress = UserAddress(newEntity.name, userId, savedAddress, id)
+        val updatedUserAddress = UserAddress(newEntity.name, securityService.userId, savedAddress, id)
         return repo.save(updatedUserAddress).toDto()
     }
 
     @Transactional
     override fun delete(id: Long) {
-        return repo.softDelete(id, userId)
+        val userAddress = repo.findByIdOrNull(id) ?: return
+        if (userAddress.userId != securityService.userId) throw UnauthorizedException("Can not delete another users address")
+        return repo.softDelete(id, securityService.userId)
     }
 
 }

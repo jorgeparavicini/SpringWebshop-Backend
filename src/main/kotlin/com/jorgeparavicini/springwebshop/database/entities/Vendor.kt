@@ -16,4 +16,5 @@ class Vendor(
     @ManyToOne(optional = false)
     @JoinColumn(name = "address_id", nullable = false)
     val address: Address,
-) : BaseEntity()
+    id: Long? = null
+) : BaseEntity(id = id)

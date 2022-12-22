@@ -22,10 +22,8 @@ class OrderServiceImpl(
     private val orderItemRepository: OrderItemRepository,
     private val shoppingCartRepo: ShoppingCartItemRepository,
     private val addressRepo: AddressRepository,
-    private val productRepo: ProductRepository
+    private val securityService: SecurityService
 ) : OrderService {
-    private val userId: String
-        get() = SecurityContextHolder.getContext()?.authentication?.name ?: throw UnauthorizedException()
 
     private fun OrderItem.toDto() = OrderItemDTO(id!!, product.id!!, quantity)
 
@@ -44,17 +42,17 @@ class OrderServiceImpl(
         OrderItem(product, quantity)
 
     private fun CreateOrderDTO.toEntity(): Order {
-        val orderItems = shoppingCartRepo.findByUserId(userId).map { it.toOrderItem() }.toSet()
+        val orderItems = shoppingCartRepo.findByUserId(securityService.userId).map { it.toOrderItem() }.toSet()
         val address = addressRepo.findByIdOrNull(address_id) ?: throw NotFoundException("Address not found")
-        return Order(comments, address, orderItems, userId, LocalDateTime.now())
+        return Order(comments, address, orderItems, securityService.userId, LocalDateTime.now())
     }
 
     override fun getAll(): List<OrderDTO> {
-        return repo.getAllByUserIdOrderByDate(userId).map { it.toDto() }
+        return repo.getAllByUserIdOrderByDate(securityService.userId).map { it.toDto() }
     }
 
     override fun find(id: Long): OrderDTO {
-        return repo.findByIdAndUserId(id, userId)?.toDto() ?: throw NotFoundException("Could not find order")
+        return repo.findByIdAndUserId(id, securityService.userId)?.toDto() ?: throw NotFoundException("Could not find order")
     }
 
     @Transactional
@@ -66,7 +64,7 @@ class OrderServiceImpl(
 
         orderItemRepository.saveAll(entity.orderItems);
         val result = repo.save(entity).toDto()
-        shoppingCartRepo.deleteAllByUserId(userId)
+        shoppingCartRepo.deleteAllByUserId(securityService.userId)
         return result
     }
 }
