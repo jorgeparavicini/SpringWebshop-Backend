@@ -12,52 +12,114 @@
 
 ---
 
-## Inhalt
+# Inhalt
 
-1. [Einführung](#einführung)
-   1. [Anforderungen](#anforderungen)
-   2. [Architektur](#architektur)
-2. [Installation](#installation)
-3. [Statusberichte](#statusberichte)
-    1. [Statusbericht 1](#statusbericht-1)
+<!-- TOC -->
+* [Inhalt](#inhalt)
+* [Einführung](#einführung)
+* [Anforderungen](#anforderungen)
+  * [Funktionale Anforderungen](#funktionale-anforderungen)
+  * [Nicht-funktionale Anforderungen](#nicht-funktionale-anforderungen)
+* [Architektur](#architektur)
+  * [Verwendete Technologien](#verwendete-technologien)
+  * [Übersicht](#übersicht)
+  * [MVC](#mvc)
+  * [Klassendiagramm](#klassendiagramm)
+  * [Entities](#entities)
+* [Installation](#installation)
+  * [Backend](#backend)
+  * [Frontend](#frontend)
+* [Statusberichte](#statusberichte)
+  * [Statusbericht 28.09.2022](#statusbericht-28092022)
+  * [Statusbericht 26.10.2922](#statusbericht-26102922)
+<!-- TOC -->
 
 ---
 
-## Einführung <a name="einführung"></a>
+# Einführung
 
-Das Ziel dieses Projektes ist es, ein Webshop zu erstellen. In diesem Webshop werden vor allem PC Komponenten und 
-andere technologische Geräte verkauft.
+Für das Module Java Enterprise Edition wird ein Online-Shop mit Front- und Backend erstellt. 
+In dem selbst-entwickelten Shop kann man Elektronikteile kaufen. Von Audio Geräten, zu Netzwerkteile bis zu
+jeglichen PC-Komponenten die man benötigt, um einen eigenen PC zu bauen.
 
-### Anforderungen <a name="anforderungen"></a>
+Das Projekt ist in zwei geteilt. Das Backend ist zuständig, eine einfach bedienbare jedoch sichere Schnittstelle
+anzubieten. Das Frontend kommuniziert mit dieser Schnittstelle und bietet eine Grafische Oberfläche für die Benutzer.
 
-In diesem Abschnitt werden die Anforderungen für das Endprodukt des Webshops spezifiziert. 
-Die Bedingung an das Projekt ist, dass das Backend mit JEE oder einem ähnlichen Produkt entwickelt wird.
-Als Alternative für Jakarta wird Spring Boot verwendet.
+# Anforderungen
 
-Folgende Features sollen im Endprodukt vorhanden sein:
+In diesem Abschnitt werden die funktionalen und nicht-funktionalen Anforderungen für das Endprodukt 
+des Webshops spezifiziert. 
 
-* User Management
-  * Sign up 
-  * Login / Logout 
-  * ~~Profil aktualisieren~~ Gestrichen, da es nicht im Umfang des Modules ist und technisch sehr kompliziert ist umzusetzen. 
-* Inhalte 
-  * Sortiment Übersicht 
-  * Bestsellers die Täglich / wöchentlich ändern 
-  * Detailansicht für einzelne Produkte 
-  * Persönlicher Einkaufswagen 
-  * Wunschliste / Merkliste 
-  * Reviews und Kommentare für Produkte 
-  * Bestellen mit Lieferadresse aus Konto vorausgefüllt, falls angemeldet 
-* Admin (Über Swagger verfügbar)
-  * Ein Admin panel um alle Produkte zu verwalten 
-  * Permission- und User verwaltung 
-  * Kann Rezensionen löschen (Falls sie nicht den TOS folgen)
-  * Backend Endpoints müssen entsprechend beschützt werden, dass nur Admins diese ausführen können. Ansonsten sollte eine Fehlermeldung mit Status 403 Forbidden zurückgegeben werden.
+## Funktionale Anforderungen
+
+Folgende Anforderungen muss der Shop unterstützen:
+
+| Titel                                         | Beschreibung                                                                                                                                                  |
+|-----------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| User Registrierung                            | Ein Benutzer muss sich auf der Seite einen neuen Account erstellen können.                                                                                    |
+| Anmelden                                      | Ein Benutzer der noch nicht angemeldet ist und schon einen Account hat, muss sich mit diesem Account anmelden können.                                         |
+| Abmelden                                      | Ein Benutzer der schon angemeldet ist, muss sich abmelden können.                                                                                             |
+| Sortiment Übersicht                           | Auf der Startseite des Shops sollen Produkte vorgeschlagen werden, welche täglich (oder in einem anderen Zeitraum) neu generiert werden.                      |
+| Kategorien                                    | Die unterschiedlichen Kategorien von Produkten müssen dargestellt und auswählbar sein.                                                                        |
+| Kategorie Übersicht                           | Wenn eine Kategorie ausgewählt wird, müssen die Produkte dieser Kategorie in einer Übersicht angezeigt werden.                                                |
+| Produktdetails                                | Wenn ein Produkt ausgewählt wird, müssen die Details dieses Produktes angezeigt werden.                                                                       |
+| Neue Produkte in persönlichen Einkaufswagen   | Angemeldete Benutzer müssen Produkte in ihren persönlichen Einkaufswagen aufnehmen können.                                                                    |
+| Einkaufswagen ansehen                         | Angemeldete Benutzer müssen ihren persönlichen Einkaufswagen ansehen können.                                                                                  |
+| Anzahl Produkte im Einkaufswagen modifizieren | Im Einkaufswagen soll die Anzahl der Produkte geändert werden können.                                                                                         |
+| Produkt aus Einkaufswagen löschen             | Produkte müssen aus dem persönlichen Einkaufswagen gelöscht werden können.                                                                                    |
+| Produkt der Wunschliste hinzufügen            | Angemeldete Benutzer müssen Produkte zu ihrer persönlicher Wunschliste hinzufügen können.                                                                     |
+| Wunschliste ansehen                           | Angemeldete Benutzer müssen ihre Wunschliste ansehen können.                                                                                                  |
+| Produkt aus Wunschliste entfernen             | Angemeldete Benutzer müssen Produkte aus ihrer Wunschliste löschen können.                                                                                    |
+| Review erstellen                              | Angemeldete Benutzer sollen Reviews erstellen können für Produkte.                                                                                            |
+| Reviews von anderen sehen                     | Angemeldete Benutzer müssen die Reviews von anderen sehen können.                                                                                             |
+| Durchschnitt Bewertung der Produkte sehen     | Die Durchschnittsbewertung soll für jedes Produkt angezeigt werden. Falls noch keine Bewertungen existieren soll stehen, dass es noch keine Bewertungen gibt. |
+| Checkout                                      | Ein angemeldeter Benutzer muss den Inhalt seines Warenkorbes bestellen können.                                                                                |
+| Adresse speichern                             | Um die Bestellung in der Zukunft einfacher zu machen, soll die Lieferadresse persistiert werden.                                                              |
+| Rabatte anzeigen                              | Falls ein Produkt ein Rabatt hat, muss dieser angezeigt werden.                                                                                               |
+| Admin oberfläche                              | Admins müssen über eine Weboberfläche Produkte bearbeiten können.                                                                                             |
+| Beschützte Endpoints                          | Persönliche und Adminendpoints (z.B. neues Produkt erstellen) müssen beschützt werden, somit nur befugte Personen diese ausführen können.                     |
+
+## Nicht-funktionale Anforderungen
+
+| Titel             | Beschreibung                                           |
+|-------------------|--------------------------------------------------------|
+| Datenbank         | Für die Datenbank soll MySQL verwendet werden.         |
+| Frontend          | Für das Frontend soll Angular verwendet werden.        |
+| Backend           | Für das Backend soll Spring Boot verwendet werden.     |
+| Authentifizierung | Für die Authentifizierung soll Auth0 verwendet werden. |
 
 
-### Architektur <a name="architektur"></a>
+# Architektur
 
-Der Webshop wird folgendermassen aufgebaut:
+## Verwendete Technologien
+
+Die Bedingung an das Projekt ist, dass das Backend mit JEE oder einem ähnlichen
+Produkt entwickelt wird. Als Alternative für Jakarta wird Spring Boot verwendet.
+
+Unten aufgelistet ist genau definiert, welche Technologien verwendet werden.
+
+* Frontend  
+  * Typescript
+  * Angular
+  * Fontawesome
+  * Bootstrap
+  * Falcon
+  * Auth0
+  * Rxjs
+  * Lottie
+  * Choices.js
+* Backend
+  * Kotlin
+  * Spring Boot
+  * Springdoc
+  * Liquibase
+  * Mockk
+  * JUnit
+  * Auth0
+* Datenbank
+  * MYSql
+
+## Übersicht
 
 ![Grobe Architektur](resources/img/Grobe Architektur.png)
 
@@ -75,9 +137,7 @@ dann wird ein `401 Unauthorized` Fehler zurückgegeben. Falls ein `Authorization
 jedoch dieser Falsch ist, oder nicht genügend Rechte hat, um diesen Endpoint auszuführen, 
 dann wird ein `403 Forbidden` Fehler zurückgegeben.
 
-### Backend
-
-#### Architektur
+## MVC
 
 ![Architektur Backend](resources/img/Springshop%20Architecture.png)
 
@@ -90,7 +150,7 @@ oder Werte von den Entities zu holen im Falle einer GET Request.
 Nachdem das Service fertig ist, sendet es ein Output DTO zurück an den Controller. Der Controller wandelt
 das DTO in ein JSON um, welches verwendet wird um die Verbindung zwischen Front- und Backend sicherzustellen.
 
-#### Klassendiagramm
+## Klassendiagramm
 
 ![Klassendiagramm](resources/img/Springshop%20Klassendiagramm.png)
 
@@ -108,25 +168,51 @@ diesen Fehler und gibt dem Benutzer eine Antwort mit dem Status Code `404 Not Fo
 bekannten Fehlermeldungen gemacht, und vereinfacht die Logik in den Controller um einiges.
 
 
-#### Entities
+## Entities
 
 ![Entities](resources/img/Springshop%20Entities.png)
 
 In diesem Diagramm sieht man, wie die Datenbank aufgebaut wird. Nicht zu sehen sind alle Tabellen die mit
-den Benutzern zu tun haben. Diese werden extern in einer zweiten Datenbank gespeichert die von `auth0` 
+den Benutzern zu tun haben. Diese werden extern in einer zweiten Datenbank gespeichert, die von `auth0` 
 verwaltet wird.
 
-### Frontend
 
-TO-DO: Entwurf Frontend
+# Installation
 
-## Installation <a name="installation"></a>
+## Backend
 
-TO-DO: Erste Dockerfile wurde erstellt. Überprüfen, ob diese korrekt funktioniert und Dokumentation ergänzen.
+Um das Backend zu installieren, müssen folgende Kommandos ausgeführt werden:
 
-## Statusberichte <a name="statusberichte"></a>
+```shell
+git clone https://git.ffhs.ch/jorge.paravicini/jee_webshop
+cd jee_webshop
+docker compose -f docker-compose.yml up
+```
 
-### Statusbericht 28.09.2022 <a name="statusbericht-1"></a>
+Dieses Kommando startet das Backend welches auf Port `8080` läuft, und dessen Datenbank welches auf Port `3306` läuft.
+Swagger kann auf folgendem Link geöffnet werden: http://localhost:8080/swagger-ui/index.html
+
+## Frontend
+
+Um das Frontend zu installieren wird [Node16](https://nodejs.org/download/release/v16.19.0/) benötigt. 
+> **_WICHTIG:_** Node18, die letzte Version von Node wird noch nicht unterstützt. 
+
+```shell
+git clone https://git.ffhs.ch/jorge.paravicini/jee_webshop_frontend
+cd jee_webshop_frontend
+
+npm install -g yarn
+yarn install
+
+ng serve
+```
+
+Das Frontend läuft auf Port `4200` und kann auf folgender Adresse geöffnet werden: http://localhost:4200
+
+
+# Statusberichte
+
+## Statusbericht 28.09.2022
 
 In dem ersten Arbeitsschritt wurde klar definiert, was die Endapplikation unterstützen muss und welche Technologien 
 verwendet werden sollen. Zusätzlich wurden drei Projekte erstellt. 
@@ -168,7 +254,7 @@ Die nächsten Schritte werden sein:
 
 ---
 
-### Statusbericht 26.10.2922 <a name="statzsbericht-2"></a>
+## Statusbericht 26.10.2922
 
 Der Schwerpunkt des zweiten Abschnitt der Semesterarbeit war, das Backend fertig zu entwerfen und sicherstellen, 
 dass alles bereit ist, das Frontend zu entwickeln. Deswegen wurde als Erstes die genauere Architektur des 
