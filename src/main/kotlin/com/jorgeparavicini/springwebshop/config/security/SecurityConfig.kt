@@ -30,6 +30,7 @@ class SecurityConfig(
         http.authorizeRequests()
             .antMatchers("/api/shopping-cart").authenticated()
             .antMatchers("/api/orders").authenticated()
+            .antMatchers(HttpMethod.GET, "/api/products/**/reviews").permitAll()
             .antMatchers("/api/products/**/reviews/**").authenticated()
             .antMatchers(HttpMethod.GET).permitAll()
             .anyRequest().authenticated()
